@@ -2,7 +2,7 @@
 
 // TODO: Open issue in OpenWhisk: https://github.com/apache/incubator-openwhisk-runtime-nodejs/issues/57
 const dirname = __dirname;
-const fw = require(`serverless-function-choreography`);
+const cfc = require(`cfc`);
 
 
 /**
@@ -16,7 +16,7 @@ function hello(params) {
         if (params.workflowState) {
             const workflowsLocation = `${dirname}${params.workflowsLocation}`;
             const stateProperties = {test: "Test"};
-            fw.executeWorkflowStep(params, process.env.__OW_ACTIVATION_ID, stateProperties, workflowsLocation, handler).then(handlerResult => {
+            cfc.executeWorkflowStep(params, process.env.__OW_ACTIVATION_ID, stateProperties, workflowsLocation, handler).then(handlerResult => {
                 resolve(handlerResult);
             }).catch(reason => {
                 reject(reason);
@@ -24,7 +24,7 @@ function hello(params) {
         } else if (JSON.parse(params.__ow_body).workflowState) {
             const workflowsLocation = `${dirname}${params.workflowsLocation}`;
             const stateProperties = {test: "Test"};
-            fw.executeWorkflowStep(JSON.parse(params.__ow_body), process.env.__OW_ACTIVATION_ID, stateProperties, workflowsLocation, handler).then(handlerResult => {
+            cfc.executeWorkflowStep(JSON.parse(params.__ow_body), process.env.__OW_ACTIVATION_ID, stateProperties, workflowsLocation, handler).then(handlerResult => {
                 resolve(handlerResult);
             }).catch(reason => {
                 reject(reason);

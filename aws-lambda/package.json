@@ -15,6 +15,6 @@
     "awslambda"
   ],
   "dependencies": {
-    "serverless-function-choreography": "^1.0.6"
+    "cfc": "^1.0.0"
   }
 }

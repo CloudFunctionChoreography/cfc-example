@@ -1,5 +1,5 @@
 'use strict';
-const fw = require(`serverless-function-choreography`);
+const cfc = require(`cfc`);
 
 module.exports.hello = (event, context, callback) => {
     if (event.workflowState) {
@@ -8,7 +8,7 @@ module.exports.hello = (event, context, callback) => {
             cloudWatchLogGroupName: context.logGroupName,
             cloudWatchLogStreamName: context.logStreamName
         };
-        fw.executeWorkflowStep(event, context.awsRequestId, stateProperties, workflowsLocation, handler).then(handlerResult => {
+        cfc.executeWorkflowStep(event, context.awsRequestId, stateProperties, workflowsLocation, handler).then(handlerResult => {
             callback(null, {
                 statusCode: 200,
                 body: JSON.stringify({

@@ -17,6 +17,6 @@
     "openwhisk"
   ],
   "dependencies": {
-    "serverless-function-choreography": "^1.0.0"
+    "cfc": "^1.0.0"
   }
 }
