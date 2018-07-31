@@ -1,0 +1,108 @@
+service: private-cloud
+
+# Please ensure the serverless-openwhisk provider plugin is installed globally.
+# $ npm install -g serverless-openwhisk
+# ...before installing project dependencies to register this provider.
+# $ npm install
+provider:
+  name: openwhisk
+  # By default, the framework creates function versions for every deploy. This behavior
+  # is optional, and can be turned off in cases where you don't invoke past versions by their qualifier
+  versionFunctions: false
+  stage: ${opt:stage, 'dev'}
+
+# define service wide environment variables
+# OpenWhisk does not support using environment variables to pass
+# custom parameters into the actions. Instead, of using environment variables, you can use default parameters on actions.
+# Default parameters can be defined when you create or update an action. The platform stores these parameters internally
+# and automatically includes them in the invocations parameters.
+  workflowsLocation: /workflows.json
+
+# you can add packaging information here
+package:
+  individually: true
+  exclude:
+    - ./**
+  include:
+    - node_modules/**
+    - function-workflows/**
+    - workflows.json
+
+functions:
+  action1:
+    handler: handler1.hello
+    name: action1Handler
+    package:
+      include:
+        - handler1.js
+    parameters:
+      workflowsLocation: ${self:provider.workflowsLocation}
+  action2:
+    handler: handler2.hello
+    name: action2Handler
+    package:
+      include:
+        - handler2.js
+    parameters:
+      workflowsLocation: ${self:provider.workflowsLocation}
+  action3:
+    handler: handler3.hello
+    name: action3Handler
+    package:
+      include:
+        - handler3.js
+    parameters:
+      workflowsLocation: ${self:provider.workflowsLocation}
+  action4:
+    handler: handler4.hello
+    name: action4Handler
+    package:
+      include:
+        - handler4.js
+    parameters:
+      workflowsLocation: ${self:provider.workflowsLocation}
+  action5:
+    handler: handler5.hello
+    name: action5Handler
+    package:
+      include:
+        - handler5.js
+    parameters:
+      workflowsLocation: ${self:provider.workflowsLocation}
+
+
+
+#    Functions can be defined using sequences rather than referring 
+#    to a handler.
+#    sequence:
+#      - parse_input
+#      - do_some_algorithm
+#      - construct_output
+
+#    The following are a few example events you can configure
+#    Check the event documentation for details
+#    events:
+#      - http: GET /api/users/create
+#      - trigger: trigger_name
+
+
+
+# you can define custom triggers and trigger feeds using the resources section.
+#
+#resources:
+#  triggers:
+#    my_trigger:
+#      parameters: 
+#        hello: world    
+#    alarm_trigger:
+#      parameters: 
+#        hello: world
+#     feed: /whisk.system/alarms/alarm
+#     feed_parameters: 
+#       cron: '*/8 * * * * *'
+
+
+# Add the serverless-openwhisk plugin
+# https://github.com/serverless/plugins
+plugins:
+  - serverless-openwhisk
