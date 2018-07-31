@@ -17,6 +17,6 @@
     "openwhisk"
   ],
   "dependencies": {
-    "cfc": "^1.0.0"
+    "cfc-lib": "^1.0.0"
   }
 }

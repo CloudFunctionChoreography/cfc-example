@@ -1,5 +1,5 @@
 'use strict';
-const cfc = require(`cfc`);
+const cfc = require(`cfc-lib`);
 
 module.exports.hello = (event, context, callback) => {
     if (event.workflowState) {

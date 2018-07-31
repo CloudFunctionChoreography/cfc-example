@@ -2,7 +2,7 @@
 
 // TODO: Open issue in OpenWhisk: https://github.com/apache/incubator-openwhisk-runtime-nodejs/issues/57
 const dirname = __dirname;
-const cfc = require(`cfc`);
+const cfc = require(`cfc-lib`);
 
 
 /**
