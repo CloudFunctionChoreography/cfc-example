@@ -3,12 +3,15 @@ const cfc = require(`cfc-lib`);
 
 module.exports.hello = (event, context, callback) => {
     if (event.workflowState) {
-        const workflowsLocation = process.env.workflowsLocation;
-        const stateProperties = {
-            cloudWatchLogGroupName: context.logGroupName,
-            cloudWatchLogStreamName: context.logStreamName
+        const options = {
+            functionExecitionId: context.awsRequestId,
+            stateProperties: {
+                cloudWatchLogGroupName: context.logGroupName,
+                cloudWatchLogStreamName: context.logStreamName
+            },
+            workflowsLocation: process.env.workflowsLocation
         };
-        cfc.executeWorkflowStep(event, context.awsRequestId, stateProperties, workflowsLocation, handler).then(handlerResult => {
+        cfc.executeWorkflowStep(event, options, handler).then(handlerResult => {
             callback(null, {
                 statusCode: 200,
                 body: JSON.stringify({

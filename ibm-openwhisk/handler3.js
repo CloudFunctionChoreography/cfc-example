@@ -13,11 +13,15 @@ const cfc = require(`cfc-lib`);
  */
 function hello(params) {
     return new Promise((resolve, reject) => {
-        if (params.workflowState) {
-            const workflowsLocation = `${dirname}${params.workflowsLocation}`;
-            const stateProperties = {test: "Test"};
+        const workflowsLocation = `${dirname}${params.workflowsLocation}`;
+        const options = {
+            functionExecitionId: process.env.__OW_ACTIVATION_ID,
+            stateProperties: {test: "Test"},
+            workflowsLocation: workflowsLocation
+        };
 
-            cfc.executeWorkflowStep(params, process.env.__OW_ACTIVATION_ID, stateProperties, workflowsLocation, handler).then(handlerResult => {
+        if (params.workflowState) {
+            cfc.executeWorkflowStep(params, options, handler).then(handlerResult => {
                 resolve(handlerResult);
             }).catch(reason => {
                 reject(reason);

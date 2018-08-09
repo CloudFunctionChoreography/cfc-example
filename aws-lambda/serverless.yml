@@ -38,6 +38,7 @@ provider:
 # define service wide environment variables
   environment:
     workflowsLocation: ${file(./preProcessWorkflowJson.js)}
+    accessKeys: ${file(./accessKeys.json)}
 
 # you can add packaging information here
 package:

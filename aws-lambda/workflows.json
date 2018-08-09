@@ -100,9 +100,7 @@
             "functionName": "action2Handler",
             "type": "post",
             "hostname": "openwhisk.eu-gb.bluemix.net",
-            "path": "/api/v1/namespaces/simon.buchholz@campus.tu-berlin.de_dev/actions/action2Handler",
-            "owApiAuthKey": "f28e6f4b-e87b-40d9-b7a1-744740a91b9c",
-            "owApiAuthPassword": "oH0UaDdxn0kTsfN86AezyAx3W0t7Xgxw7WgB8HltzCqSDPKgVBNvDRVfYBkrqE5A"
+            "path": "/api/v1/namespaces/simon.buchholz@campus.tu-berlin.de_dev/actions/action2Handler"
           },
           "inputPath": "step6InputParameterKey",
           "resultPath": "step6ResultParameterKey",
@@ -115,9 +113,7 @@
             "functionName": "action3Handler",
             "type": "post",
             "hostname": "openwhisk.eu-gb.bluemix.net",
-            "path": "/api/v1/namespaces/simon.buchholz@campus.tu-berlin.de_dev/actions/action3Handler",
-            "owApiAuthKey": "f28e6f4b-e87b-40d9-b7a1-744740a91b9c",
-            "owApiAuthPassword": "oH0UaDdxn0kTsfN86AezyAx3W0t7Xgxw7WgB8HltzCqSDPKgVBNvDRVfYBkrqE5A"
+            "path": "/api/v1/namespaces/simon.buchholz@campus.tu-berlin.de_dev/actions/action3Handler"
           },
           "inputPath": "step7InputParameterKey",
           "resultPath": "step7ResultParameterKey",
@@ -130,17 +126,13 @@
             "functionName": "action4Handler",
             "type": "post",
             "hostname": "openwhisk.eu-gb.bluemix.net",
-            "path": "/api/v1/namespaces/simon.buchholz@campus.tu-berlin.de_dev/actions/action4Handler",
-            "owApiAuthKey": "f28e6f4b-e87b-40d9-b7a1-744740a91b9c",
-            "owApiAuthPassword": "oH0UaDdxn0kTsfN86AezyAx3W0t7Xgxw7WgB8HltzCqSDPKgVBNvDRVfYBkrqE5A"
+            "path": "/api/v1/namespaces/simon.buchholz@campus.tu-berlin.de_dev/actions/action4Handler"
           },
           "inputPath": "step8InputParameterKey",
           "resultPath": "step8ResultParameterKey",
           "end": "true",
           "finishQueue": {
             "provider": "AWS-SQS",
-            "accessKeyId": "AKIAI76ZWOCVMYOJWVOA",
-            "secretAccessKey": "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",
             "queueUrl": "https://sqs.us-east-1.amazonaws.com/520443335433/orderProcessDone",
             "regionName": "us-east-1",
             "delaySeconds": 25
@@ -154,9 +146,7 @@
             "type": "post",
             "hostname": "openwhisk.eu-gb.bluemix.net",
             "path": "/api/v1/namespaces/simon.buchholz@campus.tu-berlin.de_dev/actions/action5Handler",
-            "requireWhiskAuth": "123",
-            "owApiAuthKey": "f28e6f4b-e87b-40d9-b7a1-744740a91b9c",
-            "owApiAuthPassword": "oH0UaDdxn0kTsfN86AezyAx3W0t7Xgxw7WgB8HltzCqSDPKgVBNvDRVfYBkrqE5A"
+            "requireWhiskAuth": "123"
           },
           "cause": "TODO in workflow json",
           "inputPath": "abortVariable",
