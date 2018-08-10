@@ -2,7 +2,7 @@
 const cfc = require(`cfc-lib`);
 
 module.exports.hello = (event, context, callback) => {
-    if (event.workflowState) {
+    if (event.workflowState || event.hintFlag) {
         const options = {
             functionExecitionId: context.awsRequestId,
             stateProperties: {

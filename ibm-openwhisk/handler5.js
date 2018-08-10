@@ -30,7 +30,7 @@ function hello(params) {
             }
         };
 
-        if (params.workflowState) {
+        if (params.workflowState || params.hintFlag) {
             cfc.executeWorkflowStep(params, options, handler).then(handlerResult => {
                 resolve(handlerResult);
             }).catch(reason => {

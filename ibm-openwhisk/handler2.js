@@ -13,23 +13,24 @@ const cfc = require(`cfc-lib`);
  */
 function hello(params) {
     return new Promise((resolve, reject) => {
-        if (params.workflowState) {
-            const workflowsLocation = `${dirname}${params.workflowsLocation}`;
-            const options = {
-                functionExecitionId: process.env.__OW_ACTIVATION_ID,
-                stateProperties: {test: "Test"},
-                workflowsLocation: workflowsLocation,
-                security: {
-                    openWhisk: {
-                        owApiAuthKey: params.owApiAuthKey,
-                        owApiAuthPassword: params.owApiAuthPassword
-                    },
-                    awsLambda: {
-                        accessKeyId: params.awsAccessKeyId,
-                        secretAccessKey: params.awsSecretAccessKey
-                    }
+        const workflowsLocation = `${dirname}${params.workflowsLocation}`;
+        const options = {
+            functionExecitionId: process.env.__OW_ACTIVATION_ID,
+            stateProperties: {test: "Test"},
+            workflowsLocation: workflowsLocation,
+            security: {
+                openWhisk: {
+                    owApiAuthKey: params.owApiAuthKey,
+                    owApiAuthPassword: params.owApiAuthPassword
+                },
+                awsLambda: {
+                    accessKeyId: params.awsAccessKeyId,
+                    secretAccessKey: params.awsSecretAccessKey
                 }
-            };
+            }
+        };
+
+        if (params.workflowState || params.hintFlag) {
             cfc.executeWorkflowStep(params, options, handler).then(handlerResult => {
                 resolve(handlerResult);
             }).catch(reason => {

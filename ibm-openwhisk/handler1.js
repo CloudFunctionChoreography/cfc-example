@@ -12,14 +12,20 @@ const cfc = require(`cfc-lib`);
  */
 function hello(params) {
     return new Promise((resolve, reject) => {
-        let workflowState
+        let cfcParams
         try { // workflow initialization is passed as http post request
-            workflowState = JSON.parse(params.__ow_body).workflowState
+            cfcParams = {
+                workflowState: JSON.parse(params.__ow_body).workflowState,
+                hintFlag: JSON.parse(params.__ow_body).hintFlag
+            }
         } catch (e) { // workflow initialization is passed as api request
-            workflowState = params.workflowState
+            cfcParams = {
+                workflowState:  params.workflowState,
+                hintFlag: params.hintFlag
+            }
         }
 
-        if (workflowState) {
+        if (cfcParams.workflowState) {
             const workflowsLocation = `${dirname}${params.workflowsLocation}`;
             const options = {
                 functionExecitionId: process.env.__OW_ACTIVATION_ID,
@@ -37,7 +43,7 @@ function hello(params) {
                 },
                 optimization: 1
             };
-            cfc.executeWorkflowStep({workflowState: workflowState}, options, handler).then(handlerResult => {
+            cfc.executeWorkflowStep(cfcParams, options, handler).then(handlerResult => {
                 resolve(handlerResult);
             }).catch(reason => {
                 reject(reason);
