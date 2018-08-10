@@ -35,10 +35,14 @@ provider:
         - "lambda:InvokeAsync"
       Resource: { "Fn::Join" : ["", ["arn:aws:lambda:*" ] ]  }
 
+
 # define service wide environment variables
   environment:
     workflowsLocation: ${file(./preProcessWorkflowJson.js)}
-    accessKeys: ${file(./accessKeys.json)}
+    owApiAuthKey: ${file(./accessKeys.json):openWhisk.owApiAuthKey}
+    owApiAuthPassword: ${file(./accessKeys.json):openWhisk.owApiAuthPassword}
+    awsAccessKeyId: ${file(./accessKeys.json):awsLambda.accessKeyId}
+    awsSecretAccessKey: ${file(./accessKeys.json):awsLambda.secretAccessKey}
 
 # you can add packaging information here
 package:

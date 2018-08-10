@@ -17,7 +17,10 @@ provider:
 # Default parameters can be defined when you create or update an action. The platform stores these parameters internally
 # and automatically includes them in the invocations parameters.
   workflowsLocation: /workflows.json
-  accessKeys: ${file(./accessKeys.yml)}
+  owApiAuthKey: ${file(./accessKeys.json):openWhisk.owApiAuthKey}
+  owApiAuthPassword: ${file(./accessKeys.json):openWhisk.owApiAuthPassword}
+  awsAccessKeyId: ${file(./accessKeys.json):awsLambda.accessKeyId}
+  awsSecretAccessKey: ${file(./accessKeys.json):awsLambda.secretAccessKey}
 
 # you can add packaging information here
 package:
@@ -38,7 +41,10 @@ functions:
         - handler1.js
     parameters:
       workflowsLocation: ${self:provider.workflowsLocation}
-      accessKeys: ${self:provider.accessKeys}
+      owApiAuthKey: ${self:provider.owApiAuthKey}
+      owApiAuthPassword: ${self:provider.owApiAuthPassword}
+      awsAccessKeyId: ${self:provider.awsAccessKeyId}
+      awsSecretAccessKey: ${self:provider.awsSecretAccessKey}
   action2:
     handler: handler2.hello
     name: action2Handler
@@ -47,7 +53,10 @@ functions:
         - handler2.js
     parameters:
       workflowsLocation: ${self:provider.workflowsLocation}
-      accessKeys: ${self:provider.accessKeys}
+      owApiAuthKey: ${self:provider.owApiAuthKey}
+      owApiAuthPassword: ${self:provider.owApiAuthPassword}
+      awsAccessKeyId: ${self:provider.awsAccessKeyId}
+      awsSecretAccessKey: ${self:provider.awsSecretAccessKey}
   action3:
     handler: handler3.hello
     name: action3Handler
@@ -56,7 +65,10 @@ functions:
         - handler3.js
     parameters:
       workflowsLocation: ${self:provider.workflowsLocation}
-      accessKeys: ${self:provider.accessKeys}
+      owApiAuthKey: ${self:provider.owApiAuthKey}
+      owApiAuthPassword: ${self:provider.owApiAuthPassword}
+      awsAccessKeyId: ${self:provider.awsAccessKeyId}
+      awsSecretAccessKey: ${self:provider.awsSecretAccessKey}
   action4:
     handler: handler4.hello
     name: action4Handler
@@ -65,7 +77,10 @@ functions:
         - handler4.js
     parameters:
       workflowsLocation: ${self:provider.workflowsLocation}
-      accessKeys: ${self:provider.accessKeys}
+      owApiAuthKey: ${self:provider.owApiAuthKey}
+      owApiAuthPassword: ${self:provider.owApiAuthPassword}
+      awsAccessKeyId: ${self:provider.awsAccessKeyId}
+      awsSecretAccessKey: ${self:provider.awsSecretAccessKey}
   action5:
     handler: handler5.hello
     name: action5Handler
@@ -74,7 +89,10 @@ functions:
         - handler5.js
     parameters:
       workflowsLocation: ${self:provider.workflowsLocation}
-      accessKeys: ${self:provider.accessKeys}
+      owApiAuthKey: ${self:provider.owApiAuthKey}
+      owApiAuthPassword: ${self:provider.owApiAuthPassword}
+      awsAccessKeyId: ${self:provider.awsAccessKeyId}
+      awsSecretAccessKey: ${self:provider.awsSecretAccessKey}
 
 
 

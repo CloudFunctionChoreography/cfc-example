@@ -17,7 +17,17 @@ function hello(params) {
         const options = {
             functionExecitionId: process.env.__OW_ACTIVATION_ID,
             stateProperties: {test: "Test"},
-            workflowsLocation: workflowsLocation
+            workflowsLocation: workflowsLocation,
+            security: {
+                openWhisk: {
+                    owApiAuthKey: params.owApiAuthKey,
+                    owApiAuthPassword: params.owApiAuthPassword
+                },
+                awsLambda: {
+                    accessKeyId: params.awsAccessKeyId,
+                    secretAccessKey: params.awsSecretAccessKey
+                }
+            }
         };
 
         if (params.workflowState) {
@@ -38,6 +48,9 @@ function hello(params) {
  * @returns Either an object or a promise that later resolves an object
  */
 function handler(params) {
+    let waitTill = new Date(new Date().getTime() + 500);
+    while (waitTill > new Date()) {
+    }
     return {success: `false`};
 
     /*Alternative:

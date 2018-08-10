@@ -4,7 +4,6 @@
 const dirname = __dirname;
 const cfc = require(`cfc-lib`);
 
-
 /**
  * Entry point to the action. It either executes the OpenWhisk action as a step in a defined workflow, or
  * as a usual action invocation.
@@ -13,27 +12,37 @@ const cfc = require(`cfc-lib`);
  */
 function hello(params) {
     return new Promise((resolve, reject) => {
-        const workflowsLocation = `${dirname}${params.workflowsLocation}`;
-        const options = {
-            functionExecitionId: process.env.__OW_ACTIVATION_ID,
-            stateProperties: {test: "Test"},
-            workflowsLocation: workflowsLocation
-        };
+        let workflowState
+        try { // workflow initialization is passed as http post request
+            workflowState = JSON.parse(params.__ow_body).workflowState
+        } catch (e) { // workflow initialization is passed as api request
+            workflowState = params.workflowState
+        }
 
-        if (params.workflowState) {
-            cfc.executeWorkflowStep(params, options, handler).then(handlerResult => {
-                resolve(handlerResult);
-            }).catch(reason => {
-                reject(reason);
-            });
-        } else if (JSON.parse(params.__ow_body).workflowState) {
-            cfc.executeWorkflowStep(JSON.parse(params.__ow_body), options, handler).then(handlerResult => {
+        if (workflowState) {
+            const workflowsLocation = `${dirname}${params.workflowsLocation}`;
+            const options = {
+                functionExecitionId: process.env.__OW_ACTIVATION_ID,
+                stateProperties: {test: "Test"},
+                workflowsLocation: workflowsLocation,
+                security: {
+                    openWhisk: {
+                        owApiAuthKey: params.owApiAuthKey,
+                        owApiAuthPassword: params.owApiAuthPassword
+                    },
+                    awsLambda: {
+                        accessKeyId: params.awsAccessKeyId,
+                        secretAccessKey: params.awsSecretAccessKey
+                    }
+                },
+                optimization: 1
+            };
+            cfc.executeWorkflowStep({workflowState: workflowState}, options, handler).then(handlerResult => {
                 resolve(handlerResult);
             }).catch(reason => {
                 reject(reason);
             });
         } else {
-            console.log(JSON.stringify(params));
             resolve(handler(params));
         }
     });
@@ -45,6 +54,9 @@ function hello(params) {
  * @returns Either an object or a promise that later resolves an object
  */
 function handler(params) {
+    let waitTill = new Date(new Date().getTime() + 500);
+    while (waitTill > new Date()) {
+    }
     return {success: `true`};
 
     /*Alternative:

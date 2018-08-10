@@ -9,7 +9,17 @@ module.exports.hello = (event, context, callback) => {
                 cloudWatchLogGroupName: context.logGroupName,
                 cloudWatchLogStreamName: context.logStreamName
             },
-            workflowsLocation: process.env.workflowsLocation
+            workflowsLocation: process.env.workflowsLocation,
+            security: {
+                openWhisk: {
+                    owApiAuthKey: process.env.owApiAuthKey,
+                    owApiAuthPassword: process.env.owApiAuthPassword
+                },
+                awsLambda: {
+                    accessKeyId: process.env.awsAccessKeyId,
+                    secretAccessKey: process.env.awsSecretAccessKey
+                }
+            }
         };
         cfc.executeWorkflowStep(event, options, handler).then(handlerResult => {
             callback(null, {
