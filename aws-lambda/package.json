@@ -15,6 +15,6 @@
     "awslambda"
   ],
   "dependencies": {
-    "cfc-lib": "^1.0.3"
+    "cfc-lib": "^1.0.4"
   }
 }

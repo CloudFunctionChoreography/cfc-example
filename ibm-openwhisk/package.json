@@ -17,7 +17,7 @@
     "openwhisk"
   ],
   "dependencies": {
-    "cfc-lib": "^1.0.3"
+    "cfc-lib": "^1.0.4"
   },
   "devDependencies": {
     "serverless-openwhisk": "^0.14.0"
