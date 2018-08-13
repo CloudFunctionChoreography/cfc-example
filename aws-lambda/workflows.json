@@ -135,7 +135,7 @@
             "provider": "AWS-SQS",
             "queueUrl": "https://sqs.us-east-1.amazonaws.com/520443335433/orderProcessDone",
             "regionName": "us-east-1",
-            "delaySeconds": 25
+            "delaySeconds": 120
           }
         },
         "abort": {

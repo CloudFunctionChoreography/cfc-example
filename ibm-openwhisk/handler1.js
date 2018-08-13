@@ -16,12 +16,14 @@ function hello(params) {
         try { // workflow initialization is passed as http post request
             cfcParams = {
                 workflowState: JSON.parse(params.__ow_body).workflowState,
-                hintFlag: JSON.parse(params.__ow_body).hintFlag
+                hintFlag: JSON.parse(params.__ow_body).hintFlag,
+                context: JSON.parse(params.__ow_body).context
             }
         } catch (e) { // workflow initialization is passed as api request
             cfcParams = {
                 workflowState:  params.workflowState,
-                hintFlag: params.hintFlag
+                hintFlag: params.hintFlag,
+                context: params.context
             }
         }
 
@@ -29,7 +31,7 @@ function hello(params) {
             const workflowsLocation = `${dirname}${params.workflowsLocation}`;
             const options = {
                 functionExecitionId: process.env.__OW_ACTIVATION_ID,
-                stateProperties: {test: "Test"},
+                stateProperties: {test: "Test", context: cfcParams.context},
                 workflowsLocation: workflowsLocation,
                 security: {
                     openWhisk: {
