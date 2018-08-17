@@ -22,13 +22,14 @@ Account credentials for OpenWhisk can be provided through a configuration file o
 
 
 
-### Have you installed and setup the provider plugin?
+### Have you installed and setup the provider plugin and set api keys?
 
 Using the framework with the OpenWhisk platform needs you to install the provider plugin and link this to your service. 
 
 ####  Install the provider plugin
 
 ```
+$ wsk property set --apihost PLATFORM_API_HOST --auth USER_AUTH_KEY
 $ npm install --global serverless-openwhisk
 ```
 

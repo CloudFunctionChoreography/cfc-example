@@ -2,19 +2,33 @@
 const cfc = require(`cfc-lib`);
 
 module.exports.hello = (event, context, callback) => {
-    if (event.workflowState) {
-        const workflowsLocation = process.env.workflowsLocation;
-        const stateProperties = {
-            cloudWatchLogGroupName: context.logGroupName,
-            cloudWatchLogStreamName: context.logStreamName
+    if (event.workflowState || event.hintFlag) {
+        const options = {
+            functionExecitionId: context.awsRequestId,
+            stateProperties: {
+                cloudWatchLogGroupName: context.logGroupName,
+                cloudWatchLogStreamName: context.logStreamName,
+                cfcReceiveTime: (new Date().getTime() - (30000 - context.getRemainingTimeInMillis()))
+            },
+            workflowsLocation: process.env.workflowsLocation,
+            security: {
+                openWhisk: {
+                    owApiAuthKey: process.env.owApiAuthKey,
+                    owApiAuthPassword: process.env.owApiAuthPassword
+                },
+                awsLambda: {
+                    accessKeyId: process.env.awsAccessKeyId,
+                    secretAccessKey: process.env.awsSecretAccessKey
+                }
+            }
         };
-        cfc.executeWorkflowStep(event, context.awsRequestId, stateProperties, workflowsLocation, handler).then(handlerResult => {
+        cfc.executeWorkflowStep(event, options, handler).then(handlerResult => {
             callback(null, {
                 statusCode: 200,
-                body: JSON.stringify({
-                    message: 'Go Serverless v1.0! Your function executed successfully!',
-                    input: handlerResult,
-                }),
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({handlerResult})
             });
         }).catch(reason => {
                 console.error(reason);
@@ -25,10 +39,10 @@ module.exports.hello = (event, context, callback) => {
         let handlerResult = handler(event);
         const response = {
             statusCode: 200,
-            body: JSON.stringify({
-                message: 'Go Serverless v1.0! Your function executed successfully!',
-                input: handlerResult,
-            }),
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({handlerResult})
         };
         callback(null, response);
     }

@@ -13,11 +13,40 @@ const cfc = require(`cfc-lib`);
  */
 function hello(params) {
     return new Promise((resolve, reject) => {
-        if (params.workflowState) {
-            const workflowsLocation = `${dirname}${params.workflowsLocation}`;
-            const stateProperties = {test: "Test"};
+        let cfcParams;
+        try { // workflow initialization is passed as http post request
+            cfcParams = {
+                workflowState: JSON.parse(params.__ow_body).workflowState,
+                hintFlag: JSON.parse(params.__ow_body).hintFlag,
+                context: JSON.parse(params.__ow_body).context
+            }
+        } catch (e) { // workflow initialization is passed as api request
+            cfcParams = {
+                workflowState: params.workflowState,
+                hintFlag: params.hintFlag,
+                context: params.context
+            }
+        }
 
-            cfc.executeWorkflowStep(params, process.env.__OW_ACTIVATION_ID, stateProperties, workflowsLocation, handler).then(handlerResult => {
+        const workflowsLocation = `${dirname}${params.workflowsLocation}`;
+        const options = {
+            functionExecitionId: process.env.__OW_ACTIVATION_ID,
+            stateProperties: {context: cfcParams.context, cfcReceiveTime: (process.env.__OW_DEADLINE - 60000)},
+            workflowsLocation: workflowsLocation,
+            security: {
+                openWhisk: {
+                    owApiAuthKey: params.owApiAuthKey,
+                    owApiAuthPassword: params.owApiAuthPassword
+                },
+                awsLambda: {
+                    accessKeyId: params.awsAccessKeyId,
+                    secretAccessKey: params.awsSecretAccessKey
+                }
+            }
+        };
+
+        if (cfcParams.workflowState || cfcParams.hintFlag) {
+            cfc.executeWorkflowStep(cfcParams, options, handler).then(handlerResult => {
                 resolve(handlerResult);
             }).catch(reason => {
                 reject(reason);
@@ -34,6 +63,9 @@ function hello(params) {
  * @returns Either an object or a promise that later resolves an object
  */
 function handler(params) {
+    let waitTill = new Date(new Date().getTime() + 500);
+    while (waitTill > new Date()) {
+    }
     return {success: `false`};
 
     /*Alternative:
