@@ -25,6 +25,7 @@ provider:
   stage: ${opt:stage, 'dev'}
   region: us-east-1
   memorySize: 256
+  timeout: 30
 
   # add statements to the Lambda function's IAM Role
   iamRoleStatements:
@@ -61,34 +62,32 @@ functions:
       - http:
           method: post
           path: /api/function1
-          cors: true
   function2:
     handler: handler2.hello
     events:
       - http:
           method: post
           path: /api/function2
-          cors: true
   function3:
     handler: handler3.hello
     events:
       - http:
           method: post
           path: /api/function3
-          cors: true
   function4:
     handler: handler4.hello
     events:
       - http:
           method: post
           path: /api/function4
-          cors: true
 
-###########   Workaround for issue: https://github.com/serverless/serverless/issues/4862 ############
-# API Gateway supports asynchronous lambda invocation when integration type is Event. Currently it is not
-# possible to configure this in serverless directly and requires a cloudformation resource override to enable.
+
+#######################     START: CloudFormation resource override     ###########################
 resources:
   Resources:
+  ###########   Workaround for issue: https://github.com/serverless/serverless/issues/4862 ############
+  # API Gateway supports asynchronous lambda invocation when integration type is Event. Currently it is not
+  # possible to configure this in serverless directly and requires a cloudformation resource override to enable.
     # Note, to have consistent naming in the CloudFormation Templates that get deployed
     # we use a standard pattern:
     # {Function Name}{Cloud Formation Resource Type}{Resource Name}{SequentialID or Random String}
@@ -97,39 +96,80 @@ resources:
       Type: AWS::ApiGateway::Method
       Properties:
         HttpMethod: POST
+        RequestParameters:
+          method.request.header.X-Amz-Invocation-Type: true
+        MethodResponses:
+          - StatusCode: 200
+            ResponseModels:
+              application/json: Empty
+            ResponseParameters:
+              method.response.header.Content-Type: true
         Integration:
           IntegrationHttpMethod: POST
           Type: "AWS"
           RequestParameters:
-            "integration.request.header.X-Amz-Invocation-Type": "'Event'"
+            "integration.request.header.X-Amz-Invocation-Type": "method.request.header.X-Amz-Invocation-Type"
+          IntegrationResponses:
+            - StatusCode: 200
     ApiGatewayMethodApiFunction2Post:
       Type: AWS::ApiGateway::Method
       Properties:
         HttpMethod: POST
+        RequestParameters:
+          method.request.header.X-Amz-Invocation-Type: true
+        MethodResponses:
+          - StatusCode: 200
+            ResponseModels:
+              application/json: Empty
+            ResponseParameters:
+              method.response.header.Content-Type: true
         Integration:
           IntegrationHttpMethod: POST
           Type: "AWS"
           RequestParameters:
-            "integration.request.header.X-Amz-Invocation-Type": "'Event'"
+            "integration.request.header.X-Amz-Invocation-Type": "method.request.header.X-Amz-Invocation-Type"
+          IntegrationResponses:
+            - StatusCode: 200
     ApiGatewayMethodApiFunction3Post:
       Type: AWS::ApiGateway::Method
       Properties:
         HttpMethod: POST
+        RequestParameters:
+          method.request.header.X-Amz-Invocation-Type: true
+        MethodResponses:
+          - StatusCode: 200
+            ResponseModels:
+              application/json: Empty
+            ResponseParameters:
+              method.response.header.Content-Type: true
         Integration:
           IntegrationHttpMethod: POST
           Type: "AWS"
           RequestParameters:
-            "integration.request.header.X-Amz-Invocation-Type": "'Event'"
+            "integration.request.header.X-Amz-Invocation-Type": "method.request.header.X-Amz-Invocation-Type"
+          IntegrationResponses:
+            - StatusCode: 200
     ApiGatewayMethodApiFunction4Post:
       Type: AWS::ApiGateway::Method
       Properties:
         HttpMethod: POST
+        RequestParameters:
+          method.request.header.X-Amz-Invocation-Type: true
+        MethodResponses:
+        - StatusCode: 200
+          ResponseModels:
+            application/json: Empty
+          ResponseParameters:
+            method.response.header.Content-Type: true
         Integration:
           IntegrationHttpMethod: POST
           Type: "AWS"
           RequestParameters:
-            "integration.request.header.X-Amz-Invocation-Type": "'Event'"
+            "integration.request.header.X-Amz-Invocation-Type": "method.request.header.X-Amz-Invocation-Type"
+          IntegrationResponses:
+            - StatusCode: 200
 #############################   End Workaround    ###################################
+#######################     End: CloudFormation resource override     ###########################
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events

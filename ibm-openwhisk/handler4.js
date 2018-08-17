@@ -13,10 +13,25 @@ const cfc = require(`cfc-lib`);
  */
 function hello(params) {
     return new Promise((resolve, reject) => {
+        let cfcParams
+        try { // workflow initialization is passed as http post request
+            cfcParams = {
+                workflowState: JSON.parse(params.__ow_body).workflowState,
+                hintFlag: JSON.parse(params.__ow_body).hintFlag,
+                context: JSON.parse(params.__ow_body).context
+            }
+        } catch (e) { // workflow initialization is passed as api request
+            cfcParams = {
+                workflowState: params.workflowState,
+                hintFlag: params.hintFlag,
+                context: params.context
+            }
+        }
+
         const workflowsLocation = `${dirname}${params.workflowsLocation}`;
         const options = {
             functionExecitionId: process.env.__OW_ACTIVATION_ID,
-            stateProperties: {test: "Test"},
+            stateProperties: {context: cfcParams.context, cfcReceiveTime: (process.env.__OW_DEADLINE - 60000)},
             workflowsLocation: workflowsLocation,
             security: {
                 openWhisk: {
@@ -30,8 +45,8 @@ function hello(params) {
             }
         };
 
-        if (params.workflowState || params.hintFlag) {
-            cfc.executeWorkflowStep(params, options, handler).then(handlerResult => {
+        if (cfcParams.workflowState || cfcParams.hintFlag) {
+            cfc.executeWorkflowStep(cfcParams, options, handler).then(handlerResult => {
                 resolve(handlerResult);
             }).catch(reason => {
                 reject(reason);

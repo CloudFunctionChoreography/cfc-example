@@ -7,7 +7,8 @@ module.exports.hello = (event, context, callback) => {
             functionExecitionId: context.awsRequestId,
             stateProperties: {
                 cloudWatchLogGroupName: context.logGroupName,
-                cloudWatchLogStreamName: context.logStreamName
+                cloudWatchLogStreamName: context.logStreamName,
+                cfcReceiveTime: (new Date().getTime() - (30000 - context.getRemainingTimeInMillis()))
             },
             workflowsLocation: process.env.workflowsLocation,
             security: {
@@ -24,10 +25,10 @@ module.exports.hello = (event, context, callback) => {
         cfc.executeWorkflowStep(event, options, handler).then(handlerResult => {
             callback(null, {
                 statusCode: 200,
-                body: JSON.stringify({
-                    message: 'Go Serverless v1.0! Your function executed successfully!',
-                    input: handlerResult,
-                }),
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({handlerResult})
             });
         }).catch(reason => {
                 console.error(reason);
@@ -38,10 +39,10 @@ module.exports.hello = (event, context, callback) => {
         let handlerResult = handler(event);
         const response = {
             statusCode: 200,
-            body: JSON.stringify({
-                message: 'Go Serverless v1.0! Your function executed successfully!',
-                input: handlerResult,
-            }),
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({handlerResult})
         };
         callback(null, response);
     }

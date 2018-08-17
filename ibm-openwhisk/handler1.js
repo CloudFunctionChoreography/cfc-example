@@ -21,17 +21,17 @@ function hello(params) {
             }
         } catch (e) { // workflow initialization is passed as api request
             cfcParams = {
-                workflowState:  params.workflowState,
+                workflowState: params.workflowState,
                 hintFlag: params.hintFlag,
                 context: params.context
             }
         }
 
-        if (cfcParams.workflowState) {
+        if (cfcParams.workflowState || cfcParams.hintFlag) {
             const workflowsLocation = `${dirname}${params.workflowsLocation}`;
             const options = {
                 functionExecitionId: process.env.__OW_ACTIVATION_ID,
-                stateProperties: {test: "Test", context: cfcParams.context},
+                stateProperties: {context: cfcParams.context, cfcReceiveTime: (process.env.__OW_DEADLINE - 60000)},
                 workflowsLocation: workflowsLocation,
                 security: {
                     openWhisk: {
@@ -42,8 +42,7 @@ function hello(params) {
                         accessKeyId: params.awsAccessKeyId,
                         secretAccessKey: params.awsSecretAccessKey
                     }
-                },
-                optimization: 1
+                }
             };
             cfc.executeWorkflowStep(cfcParams, options, handler).then(handlerResult => {
                 resolve(handlerResult);
@@ -67,11 +66,11 @@ function handler(params) {
     }
     return {success: `true`};
 
-    /*Alternative:
+    /* Alternative:
     return new Promise((resolve, reject) => {
         console.log("hello from async handler");
         resolve({success: `false`});
-    });*/
+    }); */
 }
 
 exports.hello = hello;

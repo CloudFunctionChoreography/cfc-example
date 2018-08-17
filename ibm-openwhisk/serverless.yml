@@ -10,6 +10,9 @@ provider:
   # is optional, and can be turned off in cases where you don't invoke past versions by their qualifier
   versionFunctions: false
   stage: ${opt:stage, 'dev'}
+  memory: 256 # Overwrite default memory size.
+  timeout: 60 # Timeout in seconds
+  overwrite: true # Can we overwrite deployed functions?
 
 # define service wide environment variables
 # OpenWhisk does not support using environment variables to pass
@@ -24,21 +27,27 @@ provider:
 
 # you can add packaging information here
 package:
-  individually: true
+  # individually: true
   exclude:
     - ./**
   include:
-    - node_modules/**
-    - function-workflows/**
+    - node_modules/cfc-lib/**
     - workflows.json
+    - handler1.js
+    - handler2.js
+    - handler3.js
+    - handler4.js
+    - handler5.js
 
 functions:
   action1:
     handler: handler1.hello
     name: action1Handler
-    package:
-      include:
-        - handler1.js
+    annotations:
+      web-export: true
+    # package:
+      # include:
+        # - handler1.js
     parameters:
       workflowsLocation: ${self:provider.workflowsLocation}
       owApiAuthKey: ${self:provider.owApiAuthKey}
@@ -48,9 +57,11 @@ functions:
   action2:
     handler: handler2.hello
     name: action2Handler
-    package:
-      include:
-        - handler2.js
+    annotations:
+      web-export: true
+    # package:
+      # include:
+        # - handler2.js
     parameters:
       workflowsLocation: ${self:provider.workflowsLocation}
       owApiAuthKey: ${self:provider.owApiAuthKey}
@@ -60,9 +71,11 @@ functions:
   action3:
     handler: handler3.hello
     name: action3Handler
-    package:
-      include:
-        - handler3.js
+    annotations:
+      web-export: true
+    # package:
+      # include:
+        # - handler3.js
     parameters:
       workflowsLocation: ${self:provider.workflowsLocation}
       owApiAuthKey: ${self:provider.owApiAuthKey}
@@ -72,9 +85,11 @@ functions:
   action4:
     handler: handler4.hello
     name: action4Handler
-    package:
-      include:
-        - handler4.js
+    annotations:
+      web-export: true
+    # package:
+      # include:
+        # - handler4.js
     parameters:
       workflowsLocation: ${self:provider.workflowsLocation}
       owApiAuthKey: ${self:provider.owApiAuthKey}
@@ -84,9 +99,11 @@ functions:
   action5:
     handler: handler5.hello
     name: action5Handler
-    package:
-      include:
-        - handler5.js
+    annotations:
+      web-export: true
+    # package:
+      # include:
+        # - handler5.js
     parameters:
       workflowsLocation: ${self:provider.workflowsLocation}
       owApiAuthKey: ${self:provider.owApiAuthKey}
