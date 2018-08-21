@@ -2,9 +2,9 @@
 const cfc = require(`cfc-lib`);
 
 module.exports.hello = (event, context, callback) => {
-    if (event.workflowState || event.hintFlag) {
+    if (event.workflowState || event.hintMessage) {
         const options = {
-            functionExecitionId: context.awsRequestId,
+            functionExecutionId: context.awsRequestId,
             stateProperties: {
                 cloudWatchLogGroupName: context.logGroupName,
                 cloudWatchLogStreamName: context.logStreamName,

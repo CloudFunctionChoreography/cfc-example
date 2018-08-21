@@ -17,20 +17,20 @@ function hello(params) {
         try { // workflow initialization is passed as http post request
             cfcParams = {
                 workflowState: JSON.parse(params.__ow_body).workflowState,
-                hintFlag: JSON.parse(params.__ow_body).hintFlag,
+                hintMessage: JSON.parse(params.__ow_body).hintMessage,
                 context: JSON.parse(params.__ow_body).context
             }
         } catch (e) { // workflow initialization is passed as api request
             cfcParams = {
                 workflowState: params.workflowState,
-                hintFlag: params.hintFlag,
+                hintMessage: params.hintMessage,
                 context: params.context
             }
         }
 
         const workflowsLocation = `${dirname}${params.workflowsLocation}`;
         const options = {
-            functionExecitionId: process.env.__OW_ACTIVATION_ID,
+            functionExecutionId: process.env.__OW_ACTIVATION_ID,
             stateProperties: {context: cfcParams.context, cfcReceiveTime: (process.env.__OW_DEADLINE - 60000)},
             workflowsLocation: workflowsLocation,
             security: {
@@ -45,7 +45,7 @@ function hello(params) {
             }
         };
 
-        if (cfcParams.workflowState || cfcParams.hintFlag) {
+        if (cfcParams.workflowState || cfcParams.hintMessage) {
             cfc.executeWorkflowStep(cfcParams, options, handler).then(handlerResult => {
                 resolve(handlerResult);
             }).catch(reason => {
