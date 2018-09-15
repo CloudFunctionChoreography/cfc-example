@@ -22,7 +22,7 @@ module.exports.hello = (event, context, callback) => {
                 }
             }
         };
-        cfc.executeWorkflowStep(event, options, handler).then(handlerResult => {
+        cfc.executeWorkflowStep(event, options,context, handler).then(handlerResult => {
             callback(null, {
                 statusCode: 200,
                 headers: {

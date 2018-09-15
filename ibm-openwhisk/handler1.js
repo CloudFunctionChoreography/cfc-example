@@ -44,7 +44,7 @@ function hello(params) {
                     }
                 }
             };
-            cfc.executeWorkflowStep(cfcParams, options, handler).then(handlerResult => {
+            cfc.executeWorkflowStep(cfcParams, options, process.env, handler).then(handlerResult => {
                 resolve(handlerResult);
             }).catch(reason => {
                 reject(reason);
