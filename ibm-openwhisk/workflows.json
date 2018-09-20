@@ -7,8 +7,11 @@
       "workflow": {
         "step1": {
           "type": "ChoiceTask",
+          "ordinalNumber": 1,
           "provider": "openWhisk",
-          "functionName": "action1Handler",
+          "functionEndpoint": {
+            "functionName": "action1Handler"
+          },
           "inputPath": "step1InputParameterKey",
           "resultPath": "step1ResultParameterKey",
           "choices": [
@@ -30,10 +33,11 @@
         "step2": {
           "type": "ChoiceTask",
           "provider": "aws",
+          "ordinalNumber": 2,
           "functionEndpoint": {
             "functionName": "function1Handler",
             "type": "post",
-            "hostname": "23dbdcg7aj.execute-api.us-east-1.amazonaws.com",
+            "hostname": "taz2v7zn86.execute-api.us-east-1.amazonaws.com",
             "path": "/dev/api/function1"
           },
           "inputPath": "step2InputParameterKey",
@@ -56,11 +60,12 @@
         },
         "step3": {
           "type": "Task",
+          "ordinalNumber": 3,
           "provider": "aws",
           "functionEndpoint": {
             "functionName": "function2Handler",
             "type": "post",
-            "hostname": "23dbdcg7aj.execute-api.us-east-1.amazonaws.com",
+            "hostname": "taz2v7zn86.execute-api.us-east-1.amazonaws.com",
             "path": "/dev/api/function2"
           },
           "inputPath": "step3InputParameterKey",
@@ -69,11 +74,12 @@
         },
         "step4": {
           "type": "Task",
+          "ordinalNumber": 4,
           "provider": "aws",
           "functionEndpoint": {
             "functionName": "function3Handler",
             "type": "post",
-            "hostname": "23dbdcg7aj.execute-api.us-east-1.amazonaws.com",
+            "hostname": "taz2v7zn86.execute-api.us-east-1.amazonaws.com",
             "path": "/dev/api/function3"
           },
           "inputPath": "step4InputParameterKey",
@@ -82,11 +88,12 @@
         },
         "step5": {
           "type": "Task",
+          "ordinalNumber": 5,
           "provider": "aws",
           "functionEndpoint": {
             "functionName": "function4Handler",
             "type": "post",
-            "hostname": "23dbdcg7aj.execute-api.us-east-1.amazonaws.com",
+            "hostname": "taz2v7zn86.execute-api.us-east-1.amazonaws.com",
             "path": "/dev/api/function4"
           },
           "inputPath": "step5InputParameterKey",
@@ -95,6 +102,7 @@
         },
         "step6": {
           "type": "Task",
+          "ordinalNumber": 6,
           "provider": "openWhisk",
           "functionEndpoint": {
             "functionName": "action2Handler",
@@ -108,6 +116,7 @@
         },
         "step7": {
           "type": "Task",
+          "ordinalNumber": 7,
           "provider": "openWhisk",
           "functionEndpoint": {
             "functionName": "action3Handler",
@@ -121,6 +130,7 @@
         },
         "step8": {
           "type": "Task",
+          "ordinalNumber": 8,
           "provider": "openWhisk",
           "functionEndpoint": {
             "functionName": "action4Handler",
@@ -140,6 +150,7 @@
         },
         "abort": {
           "type": "Fail",
+          "ordinalNumber": 9,
           "provider": "openWhisk",
           "functionEndpoint": {
             "functionName": "action5Handler",

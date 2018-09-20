@@ -32,6 +32,7 @@ package:
     - ./**
   include:
     - node_modules/cfc-lib/**
+    - node_modules/uuid/**
     - workflows.json
     - handler1.js
     - handler2.js
