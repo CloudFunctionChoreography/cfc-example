@@ -37,7 +37,7 @@
           "functionEndpoint": {
             "functionName": "function1Handler",
             "type": "post",
-            "hostname": "taz2v7zn86.execute-api.us-east-1.amazonaws.com",
+            "hostname": "fdr8kufbu6.execute-api.us-east-1.amazonaws.com",
             "path": "/dev/api/function1"
           },
           "inputPath": "step2InputParameterKey",
@@ -65,7 +65,7 @@
           "functionEndpoint": {
             "functionName": "function2Handler",
             "type": "post",
-            "hostname": "taz2v7zn86.execute-api.us-east-1.amazonaws.com",
+            "hostname": "fdr8kufbu6.execute-api.us-east-1.amazonaws.com",
             "path": "/dev/api/function2"
           },
           "inputPath": "step3InputParameterKey",
@@ -79,7 +79,7 @@
           "functionEndpoint": {
             "functionName": "function3Handler",
             "type": "post",
-            "hostname": "taz2v7zn86.execute-api.us-east-1.amazonaws.com",
+            "hostname": "fdr8kufbu6.execute-api.us-east-1.amazonaws.com",
             "path": "/dev/api/function3"
           },
           "inputPath": "step4InputParameterKey",
@@ -93,7 +93,7 @@
           "functionEndpoint": {
             "functionName": "function4Handler",
             "type": "post",
-            "hostname": "taz2v7zn86.execute-api.us-east-1.amazonaws.com",
+            "hostname": "fdr8kufbu6.execute-api.us-east-1.amazonaws.com",
             "path": "/dev/api/function4"
           },
           "inputPath": "step5InputParameterKey",
