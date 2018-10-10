@@ -67,6 +67,8 @@ typings/
 
 .nuxt
 
+.idea
+
 
 
 # vuepress build output

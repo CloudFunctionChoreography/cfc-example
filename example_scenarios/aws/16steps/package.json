@@ -1,0 +1,16 @@
+{
+  "name": "awslambda-nodejs-choreography",
+  "version": "1.0.0",
+  "description": "Sample AWS Lambda NodeJS serverless framework services using the function choreography library.",
+  "scripts": {
+    "deploy-all": "serverless deploy -v",
+    "remove-all": "serverless remove"
+  },
+  "keywords": [
+    "serverless",
+    "awslambda"
+  ],
+  "dependencies": {
+    "cfc-lib": "^1.0.4"
+  }
+}
