@@ -3,12 +3,15 @@ const cfc = require(`cfc-lib`);
 
 module.exports.hello = (event, context, callback) => {
     if (event.workflowState || event.hintMessage) {
+        const remainingTime = context.getRemainingTimeInMillis();
+        const executionTimeLimit = 30000;
         const options = {
             functionExecutionId: context.awsRequestId,
             stateProperties: {
                 cloudWatchLogGroupName: context.logGroupName,
                 cloudWatchLogStreamName: context.logStreamName,
-                cfcReceiveTime: (new Date().getTime() - (30000 - context.getRemainingTimeInMillis()))
+                cfcReceiveTime: (new Date().getTime() - (30000 - context.getRemainingTimeInMillis())),
+                initDuration: executionTimeLimit - remainingTime
             },
             workflowsLocation: process.env.workflowsLocation,
             security: {
