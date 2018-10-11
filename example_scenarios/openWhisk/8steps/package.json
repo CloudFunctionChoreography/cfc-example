@@ -6,11 +6,7 @@
   "scripts": {
     "postinstall": "npm link serverless-openwhisk",
     "deploy-all": "serverless deploy -v",
-    "remove-all": "serverless remove",
-    "deploy-action1": "serverless deploy function -f action1 -v",
-    "deploy-action2": "serverless deploy function -f action2 -v",
-    "deploy-action5": "serverless deploy function -f action5 -v",
-    "deploy-action4": "serverless deploy function -f action4 -v"
+    "remove-all": "serverless remove"
   },
   "keywords": [
     "serverless",

@@ -1,4 +1,4 @@
-service: private-cloud
+service: federated16steps
 
 # Please ensure the serverless-openwhisk provider plugin is installed globally.
 # $ npm install -g serverless-openwhisk
@@ -11,7 +11,7 @@ provider:
   versionFunctions: false
   stage: ${opt:stage, 'dev'}
   memory: 256 # Overwrite default memory size.
-  timeout: 60 # Timeout in seconds
+  timeout: 30 # Timeout in seconds
   overwrite: true # Can we overwrite deployed functions?
 
 # define service wide environment variables
@@ -39,16 +39,17 @@ package:
     - handler3.js
     - handler4.js
     - handler5.js
+    - handler6.js
+    - handler7.js
+    - handler8.js
+    - handler9.js
 
 functions:
   action1:
     handler: handler1.hello
-    name: action1Handler
+    name: ${self:service}action1Handler
     annotations:
       web-export: true
-    # package:
-      # include:
-        # - handler1.js
     parameters:
       workflowsLocation: ${self:provider.workflowsLocation}
       owApiAuthKey: ${self:provider.owApiAuthKey}
@@ -57,12 +58,9 @@ functions:
       awsSecretAccessKey: ${self:provider.awsSecretAccessKey}
   action2:
     handler: handler2.hello
-    name: action2Handler
+    name: ${self:service}action2Handler
     annotations:
       web-export: true
-    # package:
-      # include:
-        # - handler2.js
     parameters:
       workflowsLocation: ${self:provider.workflowsLocation}
       owApiAuthKey: ${self:provider.owApiAuthKey}
@@ -71,12 +69,9 @@ functions:
       awsSecretAccessKey: ${self:provider.awsSecretAccessKey}
   action3:
     handler: handler3.hello
-    name: action3Handler
+    name: ${self:service}action3Handler
     annotations:
       web-export: true
-    # package:
-      # include:
-        # - handler3.js
     parameters:
       workflowsLocation: ${self:provider.workflowsLocation}
       owApiAuthKey: ${self:provider.owApiAuthKey}
@@ -85,12 +80,9 @@ functions:
       awsSecretAccessKey: ${self:provider.awsSecretAccessKey}
   action4:
     handler: handler4.hello
-    name: action4Handler
+    name: ${self:service}action4Handler
     annotations:
       web-export: true
-    # package:
-      # include:
-        # - handler4.js
     parameters:
       workflowsLocation: ${self:provider.workflowsLocation}
       owApiAuthKey: ${self:provider.owApiAuthKey}
@@ -99,49 +91,59 @@ functions:
       awsSecretAccessKey: ${self:provider.awsSecretAccessKey}
   action5:
     handler: handler5.hello
-    name: action5Handler
+    name: ${self:service}action5Handler
     annotations:
       web-export: true
-    # package:
-      # include:
-        # - handler5.js
     parameters:
       workflowsLocation: ${self:provider.workflowsLocation}
       owApiAuthKey: ${self:provider.owApiAuthKey}
       owApiAuthPassword: ${self:provider.owApiAuthPassword}
       awsAccessKeyId: ${self:provider.awsAccessKeyId}
       awsSecretAccessKey: ${self:provider.awsSecretAccessKey}
-
-
-
-#    Functions can be defined using sequences rather than referring 
-#    to a handler.
-#    sequence:
-#      - parse_input
-#      - do_some_algorithm
-#      - construct_output
-
-#    The following are a few example events you can configure
-#    Check the event documentation for details
-#    events:
-#      - http: GET /api/users/create
-#      - trigger: trigger_name
-
-
-
-# you can define custom triggers and trigger feeds using the resources section.
-#
-#resources:
-#  triggers:
-#    my_trigger:
-#      parameters: 
-#        hello: world    
-#    alarm_trigger:
-#      parameters: 
-#        hello: world
-#     feed: /whisk.system/alarms/alarm
-#     feed_parameters: 
-#       cron: '*/8 * * * * *'
+  action6:
+    handler: handler6.hello
+    name: ${self:service}action6Handler
+    annotations:
+      web-export: true
+    parameters:
+      workflowsLocation: ${self:provider.workflowsLocation}
+      owApiAuthKey: ${self:provider.owApiAuthKey}
+      owApiAuthPassword: ${self:provider.owApiAuthPassword}
+      awsAccessKeyId: ${self:provider.awsAccessKeyId}
+      awsSecretAccessKey: ${self:provider.awsSecretAccessKey}
+  action7:
+    handler: handler7.hello
+    name: ${self:service}action7Handler
+    annotations:
+      web-export: true
+    parameters:
+      workflowsLocation: ${self:provider.workflowsLocation}
+      owApiAuthKey: ${self:provider.owApiAuthKey}
+      owApiAuthPassword: ${self:provider.owApiAuthPassword}
+      awsAccessKeyId: ${self:provider.awsAccessKeyId}
+      awsSecretAccessKey: ${self:provider.awsSecretAccessKey}
+  action8:
+    handler: handler8.hello
+    name: ${self:service}action8Handler
+    annotations:
+      web-export: true
+    parameters:
+      workflowsLocation: ${self:provider.workflowsLocation}
+      owApiAuthKey: ${self:provider.owApiAuthKey}
+      owApiAuthPassword: ${self:provider.owApiAuthPassword}
+      awsAccessKeyId: ${self:provider.awsAccessKeyId}
+      awsSecretAccessKey: ${self:provider.awsSecretAccessKey}
+  action9:
+    handler: handler9.hello
+    name: ${self:service}action9Handler
+    annotations:
+      web-export: true
+    parameters:
+      workflowsLocation: ${self:provider.workflowsLocation}
+      owApiAuthKey: ${self:provider.owApiAuthKey}
+      owApiAuthPassword: ${self:provider.owApiAuthPassword}
+      awsAccessKeyId: ${self:provider.awsAccessKeyId}
+      awsSecretAccessKey: ${self:provider.awsSecretAccessKey}
 
 
 # Add the serverless-openwhisk plugin

@@ -11,7 +11,7 @@
 #
 # Happy Coding!
 
-service: public-cloud
+service: aws8steps
 
 # You can pin your service to only deploy with a specific Serverless version
 # Check out our docs for more details
@@ -39,7 +39,7 @@ provider:
 
 # define service wide environment variables
   environment:
-    workflowsLocation: ${file(./preProcessWorkflowJson.js)}
+    workflowsLocation: ./workflows.json
     owApiAuthKey: ${file(./accessKeys.json):openWhisk.owApiAuthKey}
     owApiAuthPassword: ${file(./accessKeys.json):openWhisk.owApiAuthPassword}
     awsAccessKeyId: ${file(./accessKeys.json):awsLambda.accessKeyId}
@@ -61,25 +61,55 @@ functions:
     events:
       - http:
           method: post
-          path: /api/function1
+          path: /api/awseightstepsfunction1
   function2:
     handler: handler2.hello
     events:
       - http:
           method: post
-          path: /api/function2
+          path: /api/awseightstepsfunction2
   function3:
     handler: handler3.hello
     events:
       - http:
           method: post
-          path: /api/function3
+          path: /api/awseightstepsfunction3
   function4:
     handler: handler4.hello
     events:
       - http:
           method: post
-          path: /api/function4
+          path: /api/awseightstepsfunction4
+  function5:
+    handler: handler5.hello
+    events:
+      - http:
+          method: post
+          path: /api/awseightstepsfunction5
+  function6:
+    handler: handler6.hello
+    events:
+      - http:
+          method: post
+          path: /api/awseightstepsfunction6
+  function7:
+    handler: handler7.hello
+    events:
+      - http:
+          method: post
+          path: /api/awseightstepsfunction7
+  function8:
+    handler: handler8.hello
+    events:
+      - http:
+          method: post
+          path: /api/awseightstepsfunction8
+  function9:
+    handler: handler9.hello
+    events:
+    - http:
+        method: post
+        path: /api/awseightstepsfunction9
 
 
 #######################     START: CloudFormation resource override     ###########################
@@ -92,7 +122,7 @@ resources:
     # we use a standard pattern:
     # {Function Name}{Cloud Formation Resource Type}{Resource Name}{SequentialID or Random String}
     # path from function 1: /api/function1 => ApiGatewayMethodApiFunction1Post
-    ApiGatewayMethodApiFunction1Post:
+    ApiGatewayMethodApiAwseightstepsfunction1Post:
       Type: AWS::ApiGateway::Method
       Properties:
         HttpMethod: POST
@@ -111,7 +141,7 @@ resources:
             "integration.request.header.X-Amz-Invocation-Type": "method.request.header.X-Amz-Invocation-Type"
           IntegrationResponses:
             - StatusCode: 200
-    ApiGatewayMethodApiFunction2Post:
+    ApiGatewayMethodApiAwseightstepsfunction2Post:
       Type: AWS::ApiGateway::Method
       Properties:
         HttpMethod: POST
@@ -130,7 +160,7 @@ resources:
             "integration.request.header.X-Amz-Invocation-Type": "method.request.header.X-Amz-Invocation-Type"
           IntegrationResponses:
             - StatusCode: 200
-    ApiGatewayMethodApiFunction3Post:
+    ApiGatewayMethodApiAwseightstepsfunction3Post:
       Type: AWS::ApiGateway::Method
       Properties:
         HttpMethod: POST
@@ -149,7 +179,7 @@ resources:
             "integration.request.header.X-Amz-Invocation-Type": "method.request.header.X-Amz-Invocation-Type"
           IntegrationResponses:
             - StatusCode: 200
-    ApiGatewayMethodApiFunction4Post:
+    ApiGatewayMethodApiAwseightstepsfunction4Post:
       Type: AWS::ApiGateway::Method
       Properties:
         HttpMethod: POST
@@ -168,6 +198,102 @@ resources:
             "integration.request.header.X-Amz-Invocation-Type": "method.request.header.X-Amz-Invocation-Type"
           IntegrationResponses:
             - StatusCode: 200
+    ApiGatewayMethodApiAwseightstepsfunction5Post:
+      Type: AWS::ApiGateway::Method
+      Properties:
+        HttpMethod: POST
+        RequestParameters:
+          method.request.header.X-Amz-Invocation-Type: true
+        MethodResponses:
+        - StatusCode: 200
+          ResponseModels:
+            application/json: Empty
+          ResponseParameters:
+            method.response.header.Content-Type: true
+        Integration:
+          IntegrationHttpMethod: POST
+          Type: "AWS"
+          RequestParameters:
+            "integration.request.header.X-Amz-Invocation-Type": "method.request.header.X-Amz-Invocation-Type"
+          IntegrationResponses:
+          - StatusCode: 200
+    ApiGatewayMethodApiAwseightstepsfunction6Post:
+      Type: AWS::ApiGateway::Method
+      Properties:
+        HttpMethod: POST
+        RequestParameters:
+          method.request.header.X-Amz-Invocation-Type: true
+        MethodResponses:
+        - StatusCode: 200
+          ResponseModels:
+            application/json: Empty
+          ResponseParameters:
+            method.response.header.Content-Type: true
+        Integration:
+          IntegrationHttpMethod: POST
+          Type: "AWS"
+          RequestParameters:
+            "integration.request.header.X-Amz-Invocation-Type": "method.request.header.X-Amz-Invocation-Type"
+          IntegrationResponses:
+          - StatusCode: 200
+    ApiGatewayMethodApiAwseightstepsfunction7Post:
+      Type: AWS::ApiGateway::Method
+      Properties:
+        HttpMethod: POST
+        RequestParameters:
+          method.request.header.X-Amz-Invocation-Type: true
+        MethodResponses:
+        - StatusCode: 200
+          ResponseModels:
+            application/json: Empty
+          ResponseParameters:
+            method.response.header.Content-Type: true
+        Integration:
+          IntegrationHttpMethod: POST
+          Type: "AWS"
+          RequestParameters:
+            "integration.request.header.X-Amz-Invocation-Type": "method.request.header.X-Amz-Invocation-Type"
+          IntegrationResponses:
+          - StatusCode: 200
+    ApiGatewayMethodApiAwseightstepsfunction8Post:
+      Type: AWS::ApiGateway::Method
+      Properties:
+        HttpMethod: POST
+        RequestParameters:
+          method.request.header.X-Amz-Invocation-Type: true
+        MethodResponses:
+        - StatusCode: 200
+          ResponseModels:
+            application/json: Empty
+          ResponseParameters:
+            method.response.header.Content-Type: true
+        Integration:
+          IntegrationHttpMethod: POST
+          Type: "AWS"
+          RequestParameters:
+            "integration.request.header.X-Amz-Invocation-Type": "method.request.header.X-Amz-Invocation-Type"
+          IntegrationResponses:
+          - StatusCode: 200
+    ApiGatewayMethodApiAwseightstepsfunction9Post:
+      Type: AWS::ApiGateway::Method
+      Properties:
+        HttpMethod: POST
+        RequestParameters:
+          method.request.header.X-Amz-Invocation-Type: true
+        MethodResponses:
+        - StatusCode: 200
+          ResponseModels:
+            application/json: Empty
+          ResponseParameters:
+            method.response.header.Content-Type: true
+        Integration:
+          IntegrationHttpMethod: POST
+          Type: "AWS"
+          RequestParameters:
+            "integration.request.header.X-Amz-Invocation-Type": "method.request.header.X-Amz-Invocation-Type"
+          IntegrationResponses:
+          - StatusCode: 200
+
 #############################   End Workaround    ###################################
 #######################     End: CloudFormation resource override     ###########################
 

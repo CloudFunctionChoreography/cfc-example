@@ -4,6 +4,7 @@
 const dirname = __dirname;
 const cfc = require(`cfc-lib`);
 
+
 /**
  * Entry point to the action. It either executes the OpenWhisk action as a step in a defined workflow, or
  * as a usual action invocation.
@@ -12,7 +13,7 @@ const cfc = require(`cfc-lib`);
  */
 function hello(params) {
     return new Promise((resolve, reject) => {
-        let cfcParams
+        let cfcParams;
         try { // workflow initialization is passed as http post request
             cfcParams = {
                 workflowState: JSON.parse(params.__ow_body).workflowState,
@@ -27,24 +28,25 @@ function hello(params) {
             }
         }
 
-        if (cfcParams.workflowState || cfcParams.hintMessage) {
-            const workflowsLocation = `${dirname}${params.workflowsLocation}`;
-            const options = {
-                functionExecutionId: process.env.__OW_ACTIVATION_ID,
-                stateProperties: {context: cfcParams.context, cfcReceiveTime: (process.env.__OW_DEADLINE - 60000)},
-                workflowsLocation: workflowsLocation,
-                security: {
-                    openWhisk: {
-                        owApiAuthKey: params.owApiAuthKey,
-                        owApiAuthPassword: params.owApiAuthPassword
-                    },
-                    awsLambda: {
-                        accessKeyId: params.awsAccessKeyId,
-                        secretAccessKey: params.awsSecretAccessKey
-                    }
+        const workflowsLocation = `${dirname}${params.workflowsLocation}`;
+        const options = {
+            functionExecutionId: process.env.__OW_ACTIVATION_ID,
+            stateProperties: {context: cfcParams.context, cfcReceiveTime: (process.env.__OW_DEADLINE - 60000)},
+            workflowsLocation: workflowsLocation,
+            security: {
+                openWhisk: {
+                    owApiAuthKey: params.owApiAuthKey,
+                    owApiAuthPassword: params.owApiAuthPassword
+                },
+                awsLambda: {
+                    accessKeyId: params.awsAccessKeyId,
+                    secretAccessKey: params.awsSecretAccessKey
                 }
-            };
-            cfc.executeWorkflowStep(cfcParams, options, process.env, handler).then(handlerResult => {
+            }
+        };
+
+        if (cfcParams.workflowState || cfcParams.hintMessage) {
+            cfc.executeWorkflowStep(cfcParams, options, process.env,  handler).then(handlerResult => {
                 resolve(handlerResult);
             }).catch(reason => {
                 reject(reason);
@@ -64,13 +66,13 @@ function handler(params) {
     let waitTill = new Date(new Date().getTime() + 500);
     while (waitTill > new Date()) {
     }
-    return {success: `true`};
+    return {success: `false`};
 
-    /* Alternative:
+    /*Alternative:
     return new Promise((resolve, reject) => {
         console.log("hello from async handler");
         resolve({success: `false`});
-    }); */
+    });*/
 }
 
 exports.hello = hello;

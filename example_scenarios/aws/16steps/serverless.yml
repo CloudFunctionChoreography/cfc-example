@@ -11,7 +11,7 @@
 #
 # Happy Coding!
 
-service: federated16steps
+service: aws16steps
 
 # You can pin your service to only deploy with a specific Serverless version
 # Check out our docs for more details
@@ -39,7 +39,7 @@ provider:
 
 # define service wide environment variables
   environment:
-    workflowsLocation: ${file(./preProcessWorkflowJson.js)}
+    workflowsLocation: ./workflows.json
     owApiAuthKey: ${file(./accessKeys.json):openWhisk.owApiAuthKey}
     owApiAuthPassword: ${file(./accessKeys.json):openWhisk.owApiAuthPassword}
     awsAccessKeyId: ${file(./accessKeys.json):awsLambda.accessKeyId}
@@ -61,50 +61,104 @@ functions:
     events:
       - http:
           method: post
-          path: /api/federatedsixteenstepsfunction1
+          path: /api/awssixteenstepsfunction1
   function2:
     handler: handler2.hello
     events:
       - http:
           method: post
-          path: /api/federatedsixteenstepsfunction2
+          path: /api/awssixteenstepsfunction2
   function3:
     handler: handler3.hello
     events:
       - http:
           method: post
-          path: /api/federatedsixteenstepsfunction3
+          path: /api/awssixteenstepsfunction3
   function4:
     handler: handler4.hello
     events:
       - http:
           method: post
-          path: /api/federatedsixteenstepsfunction4
+          path: /api/awssixteenstepsfunction4
   function5:
     handler: handler5.hello
     events:
       - http:
           method: post
-          path: /api/federatedsixteenstepsfunction5
+          path: /api/awssixteenstepsfunction5
   function6:
     handler: handler6.hello
     events:
       - http:
           method: post
-          path: /api/federatedsixteenstepsfunction6
+          path: /api/awssixteenstepsfunction6
   function7:
     handler: handler7.hello
     events:
       - http:
           method: post
-          path: /api/federatedsixteenstepsfunction7
+          path: /api/awssixteenstepsfunction7
   function8:
     handler: handler8.hello
     events:
       - http:
           method: post
-          path: /api/federatedsixteenstepsfunction8
+          path: /api/awssixteenstepsfunction8
+  function9:
+    handler: handler9.hello
+    events:
+    - http:
+        method: post
+        path: /api/awssixteenstepsfunction9
 
+  function10:
+    handler: handler10.hello
+    events:
+    - http:
+        method: post
+        path: /api/awssixteenstepsfunction10
+  function11:
+    handler: handler11.hello
+    events:
+    - http:
+        method: post
+        path: /api/awssixteenstepsfunction11
+  function12:
+    handler: handler12.hello
+    events:
+    - http:
+        method: post
+        path: /api/awssixteenstepsfunction12
+  function13:
+    handler: handler13.hello
+    events:
+    - http:
+        method: post
+        path: /api/awssixteenstepsfunction13
+  function14:
+    handler: handler14.hello
+    events:
+    - http:
+        method: post
+        path: /api/awssixteenstepsfunction14
+  function15:
+    handler: handler15.hello
+    events:
+    - http:
+        method: post
+        path: /api/awssixteenstepsfunction15
+  function16:
+    handler: handler16.hello
+    events:
+    - http:
+        method: post
+        path: /api/awssixteenstepsfunction16
+  function17:
+    handler: handler17.hello
+    events:
+    - http:
+        method: post
+        path: /api/awssixteenstepsfunction17
 
 #######################     START: CloudFormation resource override     ###########################
 resources:
@@ -116,7 +170,7 @@ resources:
     # we use a standard pattern:
     # {Function Name}{Cloud Formation Resource Type}{Resource Name}{SequentialID or Random String}
     # path from function 1: /api/function1 => ApiGatewayMethodApiFunction1Post
-    ApiGatewayMethodApiFederatedsixteenstepsfunction1Post:
+    ApiGatewayMethodApiAwssixteenstepsfunction1Post:
       Type: AWS::ApiGateway::Method
       Properties:
         HttpMethod: POST
@@ -135,7 +189,7 @@ resources:
             "integration.request.header.X-Amz-Invocation-Type": "method.request.header.X-Amz-Invocation-Type"
           IntegrationResponses:
             - StatusCode: 200
-    ApiGatewayMethodApiFederatedsixteenstepsfunction2Post:
+    ApiGatewayMethodApiAwssixteenstepsfunction2Post:
       Type: AWS::ApiGateway::Method
       Properties:
         HttpMethod: POST
@@ -154,7 +208,7 @@ resources:
             "integration.request.header.X-Amz-Invocation-Type": "method.request.header.X-Amz-Invocation-Type"
           IntegrationResponses:
             - StatusCode: 200
-    ApiGatewayMethodApiFederatedsixteenstepsfunction3Post:
+    ApiGatewayMethodApiAwssixteenstepsfunction3Post:
       Type: AWS::ApiGateway::Method
       Properties:
         HttpMethod: POST
@@ -173,7 +227,7 @@ resources:
             "integration.request.header.X-Amz-Invocation-Type": "method.request.header.X-Amz-Invocation-Type"
           IntegrationResponses:
             - StatusCode: 200
-    ApiGatewayMethodApiFederatedsixteenstepsfunction4Post:
+    ApiGatewayMethodApiAwssixteenstepsfunction4Post:
       Type: AWS::ApiGateway::Method
       Properties:
         HttpMethod: POST
@@ -192,7 +246,7 @@ resources:
             "integration.request.header.X-Amz-Invocation-Type": "method.request.header.X-Amz-Invocation-Type"
           IntegrationResponses:
             - StatusCode: 200
-    ApiGatewayMethodApiFederatedsixteenstepsfunction5Post:
+    ApiGatewayMethodApiAwssixteenstepsfunction5Post:
       Type: AWS::ApiGateway::Method
       Properties:
         HttpMethod: POST
@@ -211,7 +265,7 @@ resources:
             "integration.request.header.X-Amz-Invocation-Type": "method.request.header.X-Amz-Invocation-Type"
           IntegrationResponses:
           - StatusCode: 200
-    ApiGatewayMethodApiFederatedsixteenstepsfunction6Post:
+    ApiGatewayMethodApiAwssixteenstepsfunction6Post:
       Type: AWS::ApiGateway::Method
       Properties:
         HttpMethod: POST
@@ -230,7 +284,7 @@ resources:
             "integration.request.header.X-Amz-Invocation-Type": "method.request.header.X-Amz-Invocation-Type"
           IntegrationResponses:
           - StatusCode: 200
-    ApiGatewayMethodApiFederatedsixteenstepsfunction7Post:
+    ApiGatewayMethodApiAwssixteenstepsfunction7Post:
       Type: AWS::ApiGateway::Method
       Properties:
         HttpMethod: POST
@@ -249,7 +303,178 @@ resources:
             "integration.request.header.X-Amz-Invocation-Type": "method.request.header.X-Amz-Invocation-Type"
           IntegrationResponses:
           - StatusCode: 200
-    ApiGatewayMethodApiFederatedsixteenstepsfunction8Post:
+    ApiGatewayMethodApiAwssixteenstepsfunction8Post:
+      Type: AWS::ApiGateway::Method
+      Properties:
+        HttpMethod: POST
+        RequestParameters:
+          method.request.header.X-Amz-Invocation-Type: true
+        MethodResponses:
+        - StatusCode: 200
+          ResponseModels:
+            application/json: Empty
+          ResponseParameters:
+            method.response.header.Content-Type: true
+        Integration:
+          IntegrationHttpMethod: POST
+          Type: "AWS"
+          RequestParameters:
+            "integration.request.header.X-Amz-Invocation-Type": "method.request.header.X-Amz-Invocation-Type"
+          IntegrationResponses:
+          - StatusCode: 200
+    ApiGatewayMethodApiAwssixteenstepsfunction9Post:
+      Type: AWS::ApiGateway::Method
+      Properties:
+        HttpMethod: POST
+        RequestParameters:
+          method.request.header.X-Amz-Invocation-Type: true
+        MethodResponses:
+        - StatusCode: 200
+          ResponseModels:
+            application/json: Empty
+          ResponseParameters:
+            method.response.header.Content-Type: true
+        Integration:
+          IntegrationHttpMethod: POST
+          Type: "AWS"
+          RequestParameters:
+            "integration.request.header.X-Amz-Invocation-Type": "method.request.header.X-Amz-Invocation-Type"
+          IntegrationResponses:
+          - StatusCode: 200
+    ApiGatewayMethodApiAwssixteenstepsfunction10Post:
+      Type: AWS::ApiGateway::Method
+      Properties:
+        HttpMethod: POST
+        RequestParameters:
+          method.request.header.X-Amz-Invocation-Type: true
+        MethodResponses:
+        - StatusCode: 200
+          ResponseModels:
+            application/json: Empty
+          ResponseParameters:
+            method.response.header.Content-Type: true
+        Integration:
+          IntegrationHttpMethod: POST
+          Type: "AWS"
+          RequestParameters:
+            "integration.request.header.X-Amz-Invocation-Type": "method.request.header.X-Amz-Invocation-Type"
+          IntegrationResponses:
+          - StatusCode: 200
+    ApiGatewayMethodApiAwssixteenstepsfunction11Post:
+      Type: AWS::ApiGateway::Method
+      Properties:
+        HttpMethod: POST
+        RequestParameters:
+          method.request.header.X-Amz-Invocation-Type: true
+        MethodResponses:
+        - StatusCode: 200
+          ResponseModels:
+            application/json: Empty
+          ResponseParameters:
+            method.response.header.Content-Type: true
+        Integration:
+          IntegrationHttpMethod: POST
+          Type: "AWS"
+          RequestParameters:
+            "integration.request.header.X-Amz-Invocation-Type": "method.request.header.X-Amz-Invocation-Type"
+          IntegrationResponses:
+          - StatusCode: 200
+    ApiGatewayMethodApiAwssixteenstepsfunction12Post:
+      Type: AWS::ApiGateway::Method
+      Properties:
+        HttpMethod: POST
+        RequestParameters:
+          method.request.header.X-Amz-Invocation-Type: true
+        MethodResponses:
+        - StatusCode: 200
+          ResponseModels:
+            application/json: Empty
+          ResponseParameters:
+            method.response.header.Content-Type: true
+        Integration:
+          IntegrationHttpMethod: POST
+          Type: "AWS"
+          RequestParameters:
+            "integration.request.header.X-Amz-Invocation-Type": "method.request.header.X-Amz-Invocation-Type"
+          IntegrationResponses:
+          - StatusCode: 200
+    ApiGatewayMethodApiAwssixteenstepsfunction13Post:
+      Type: AWS::ApiGateway::Method
+      Properties:
+        HttpMethod: POST
+        RequestParameters:
+          method.request.header.X-Amz-Invocation-Type: true
+        MethodResponses:
+        - StatusCode: 200
+          ResponseModels:
+            application/json: Empty
+          ResponseParameters:
+            method.response.header.Content-Type: true
+        Integration:
+          IntegrationHttpMethod: POST
+          Type: "AWS"
+          RequestParameters:
+            "integration.request.header.X-Amz-Invocation-Type": "method.request.header.X-Amz-Invocation-Type"
+          IntegrationResponses:
+          - StatusCode: 200
+    ApiGatewayMethodApiAwssixteenstepsfunction14Post:
+      Type: AWS::ApiGateway::Method
+      Properties:
+        HttpMethod: POST
+        RequestParameters:
+          method.request.header.X-Amz-Invocation-Type: true
+        MethodResponses:
+        - StatusCode: 200
+          ResponseModels:
+            application/json: Empty
+          ResponseParameters:
+            method.response.header.Content-Type: true
+        Integration:
+          IntegrationHttpMethod: POST
+          Type: "AWS"
+          RequestParameters:
+            "integration.request.header.X-Amz-Invocation-Type": "method.request.header.X-Amz-Invocation-Type"
+          IntegrationResponses:
+          - StatusCode: 200
+    ApiGatewayMethodApiAwssixteenstepsfunction15Post:
+      Type: AWS::ApiGateway::Method
+      Properties:
+        HttpMethod: POST
+        RequestParameters:
+          method.request.header.X-Amz-Invocation-Type: true
+        MethodResponses:
+        - StatusCode: 200
+          ResponseModels:
+            application/json: Empty
+          ResponseParameters:
+            method.response.header.Content-Type: true
+        Integration:
+          IntegrationHttpMethod: POST
+          Type: "AWS"
+          RequestParameters:
+            "integration.request.header.X-Amz-Invocation-Type": "method.request.header.X-Amz-Invocation-Type"
+          IntegrationResponses:
+          - StatusCode: 200
+    ApiGatewayMethodApiAwssixteenstepsfunction16Post:
+      Type: AWS::ApiGateway::Method
+      Properties:
+        HttpMethod: POST
+        RequestParameters:
+          method.request.header.X-Amz-Invocation-Type: true
+        MethodResponses:
+        - StatusCode: 200
+          ResponseModels:
+            application/json: Empty
+          ResponseParameters:
+            method.response.header.Content-Type: true
+        Integration:
+          IntegrationHttpMethod: POST
+          Type: "AWS"
+          RequestParameters:
+            "integration.request.header.X-Amz-Invocation-Type": "method.request.header.X-Amz-Invocation-Type"
+          IntegrationResponses:
+          - StatusCode: 200
+    ApiGatewayMethodApiAwssixteenstepsfunction17Post:
       Type: AWS::ApiGateway::Method
       Properties:
         HttpMethod: POST
