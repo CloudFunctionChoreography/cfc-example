@@ -1,4 +1,4 @@
-service: openwhisk8steps
+service: openwhisk16steps
 
 # Please ensure the serverless-openwhisk provider plugin is installed globally.
 # $ npm install -g serverless-openwhisk
@@ -43,6 +43,14 @@ package:
     - handler7.js
     - handler8.js
     - handler9.js
+    - handler10.js
+    - handler11.js
+    - handler12.js
+    - handler13.js
+    - handler14.js
+    - handler15.js
+    - handler16.js
+    - handler17.js
 
 functions:
   action1:
@@ -136,6 +144,94 @@ functions:
   action9:
     handler: handler9.hello
     name: ${self:service}action9Handler
+    annotations:
+      web-export: true
+    parameters:
+      workflowsLocation: ${self:provider.workflowsLocation}
+      owApiAuthKey: ${self:provider.owApiAuthKey}
+      owApiAuthPassword: ${self:provider.owApiAuthPassword}
+      awsAccessKeyId: ${self:provider.awsAccessKeyId}
+      awsSecretAccessKey: ${self:provider.awsSecretAccessKey}
+  action10:
+    handler: handler10.hello
+    name: ${self:service}action10Handler
+    annotations:
+      web-export: true
+    parameters:
+      workflowsLocation: ${self:provider.workflowsLocation}
+      owApiAuthKey: ${self:provider.owApiAuthKey}
+      owApiAuthPassword: ${self:provider.owApiAuthPassword}
+      awsAccessKeyId: ${self:provider.awsAccessKeyId}
+      awsSecretAccessKey: ${self:provider.awsSecretAccessKey}
+  action11:
+    handler: handler11.hello
+    name: ${self:service}action11Handler
+    annotations:
+      web-export: true
+    parameters:
+      workflowsLocation: ${self:provider.workflowsLocation}
+      owApiAuthKey: ${self:provider.owApiAuthKey}
+      owApiAuthPassword: ${self:provider.owApiAuthPassword}
+      awsAccessKeyId: ${self:provider.awsAccessKeyId}
+      awsSecretAccessKey: ${self:provider.awsSecretAccessKey}
+  action12:
+    handler: handler12.hello
+    name: ${self:service}action12Handler
+    annotations:
+      web-export: true
+    parameters:
+      workflowsLocation: ${self:provider.workflowsLocation}
+      owApiAuthKey: ${self:provider.owApiAuthKey}
+      owApiAuthPassword: ${self:provider.owApiAuthPassword}
+      awsAccessKeyId: ${self:provider.awsAccessKeyId}
+      awsSecretAccessKey: ${self:provider.awsSecretAccessKey}
+  action13:
+    handler: handler13.hello
+    name: ${self:service}action13Handler
+    annotations:
+      web-export: true
+    parameters:
+      workflowsLocation: ${self:provider.workflowsLocation}
+      owApiAuthKey: ${self:provider.owApiAuthKey}
+      owApiAuthPassword: ${self:provider.owApiAuthPassword}
+      awsAccessKeyId: ${self:provider.awsAccessKeyId}
+      awsSecretAccessKey: ${self:provider.awsSecretAccessKey}
+  action14:
+    handler: handler14.hello
+    name: ${self:service}action14Handler
+    annotations:
+      web-export: true
+    parameters:
+      workflowsLocation: ${self:provider.workflowsLocation}
+      owApiAuthKey: ${self:provider.owApiAuthKey}
+      owApiAuthPassword: ${self:provider.owApiAuthPassword}
+      awsAccessKeyId: ${self:provider.awsAccessKeyId}
+      awsSecretAccessKey: ${self:provider.awsSecretAccessKey}
+  action15:
+    handler: handler15.hello
+    name: ${self:service}action15Handler
+    annotations:
+      web-export: true
+    parameters:
+      workflowsLocation: ${self:provider.workflowsLocation}
+      owApiAuthKey: ${self:provider.owApiAuthKey}
+      owApiAuthPassword: ${self:provider.owApiAuthPassword}
+      awsAccessKeyId: ${self:provider.awsAccessKeyId}
+      awsSecretAccessKey: ${self:provider.awsSecretAccessKey}
+  action16:
+    handler: handler16.hello
+    name: ${self:service}action16Handler
+    annotations:
+      web-export: true
+    parameters:
+      workflowsLocation: ${self:provider.workflowsLocation}
+      owApiAuthKey: ${self:provider.owApiAuthKey}
+      owApiAuthPassword: ${self:provider.owApiAuthPassword}
+      awsAccessKeyId: ${self:provider.awsAccessKeyId}
+      awsSecretAccessKey: ${self:provider.awsSecretAccessKey}
+  action17:
+    handler: handler17.hello
+    name: ${self:service}action17Handler
     annotations:
       web-export: true
     parameters:

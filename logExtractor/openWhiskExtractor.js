@@ -24,12 +24,14 @@ const collectLogs = (actionName, startAt) => {
     // 1. Get all activation ids
     const getAllActivationsPromise = () => {
         return new Promise((resolve, reject) => {
+            let retryCounter = 0;
             let since = now - startAt;
             console.log(`Start getting OW logs for ${actionName}, since ${since}, upto ${now}`);
             let allActivations = [];
             const recursiveCallback = () => {
                 let upto = since + 8000;
                 collectOpenWhiskLogsForAction(actionName, since, upto).then(activations => {
+                    retryCounter = 0;
                     allActivations = [...allActivations, ...activations];
                     since += 8000;
                     if (since < now) {
@@ -40,7 +42,13 @@ const collectLogs = (actionName, startAt) => {
                         resolve(allActivations)
                     }
                 }).catch(error => {
-                    reject(error);
+                    while (retryCounter < 3) {
+                        recursiveCallback();
+                        retryCounter++;
+                    }
+                    if (retryCounter === 3) {
+                        reject(error);
+                    }
                 });
             };
             recursiveCallback();
@@ -59,15 +67,26 @@ const collectLogs = (actionName, startAt) => {
                 const recursiveCallback = () => {
                     let activation = allActivations.pop();
                     if (activation) {
-                        getSingleAction(activation.activationId, 0).then(singleActivation => {
-                            detailedActionActivations.push(singleActivation);
-                            setTimeout(() => {
-                                recursiveCallback();
-                            }, timeout);
-                        }).catch(reason => {
-                            clearInterval(logInterval);
-                            reject(reason)
-                        })
+                        let retryCounter = 0;
+                        const getSingleActionFunction = () => {
+                            getSingleAction(activation.activationId, 0).then(singleActivation => {
+                                retryCounter = 0;
+                                detailedActionActivations.push(singleActivation);
+                                setTimeout(() => {
+                                    recursiveCallback();
+                                }, timeout);
+                            }).catch(reason => {
+                                while (retryCounter < 3) {
+                                    getSingleActionFunction();
+                                    retryCounter++;
+                                }
+                                if (retryCounter === 3) {
+                                    clearInterval(logInterval);
+                                    reject(reason)
+                                }
+                            })
+                        };
+                        getSingleActionFunction();
                     } else {
                         clearInterval(logInterval);
                         resolve(detailedActionActivations)
@@ -91,19 +110,28 @@ const collectLogs = (actionName, startAt) => {
                 else if (transformedLog && transformedLog.hintLog) hintLogResults.push(transformedLog.hintLog);
             }
 
-            let xlsStepLogs = json2xls(stepLogResults);
-            let location = `benchmark/stepLogs/step_log_openWhisk_${actionName}.xlsx`;
-            if (storeTestname !== "") location = `benchmark/${storeTestname}/stepLogs/step_log_openWhisk_${actionName}.xlsx`;
-            fs.writeFileSync(location, xlsStepLogs, 'binary');
-            console.log(`+++++++++++++++++ Added ${stepLogResults.length} new log entries to xls: ${location} ++++++++++++++++++`);
+            if (stepLogResults.length > 0) {
+                let xlsStepLogs = json2xls(stepLogResults);
+                let location = `benchmark/stepLogs/step_log_openWhisk_${actionName}.xlsx`;
+                if (storeTestname !== "") location = `benchmark/${storeTestname}/stepLogs/step_log_openWhisk_${actionName}.xlsx`;
+                fs.writeFileSync(location, xlsStepLogs, 'binary');
+                console.log(`+++++++++++++++++ Added ${stepLogResults.length} new log entries to xls: ${location} ++++++++++++++++++`);
+            } else {
+                console.log(`+++++++++++++++++ Skipped creation of file since ${stepLogResults.length} new step log entries for ${actionName} ++++++++++++++++++`);
+            }
 
-
-            let xlsHintLogs = json2xls(hintLogResults);
-            let location2 = `benchmark/hintLogs/hint_log_openWhisk_${actionName}.xlsx`;
-            if (storeTestname !== "") location2 = `benchmark/${storeTestname}/hintLogs/hint_log_openWhisk_${actionName}.xlsx`;
-            fs.writeFileSync(location2, xlsHintLogs, 'binary');
-            console.log(`+++++++++++++++++ Added ${hintLogResults.length} new log entries to xls: ${location2} ++++++++++++++++++`)
+            if (hintLogResults.length > 0) {
+                let xlsHintLogs = json2xls(hintLogResults);
+                let location2 = `benchmark/hintLogs/hint_log_openWhisk_${actionName}.xlsx`;
+                if (storeTestname !== "") location2 = `benchmark/${storeTestname}/hintLogs/hint_log_openWhisk_${actionName}.xlsx`;
+                fs.writeFileSync(location2, xlsHintLogs, 'binary');
+                console.log(`+++++++++++++++++ Added ${hintLogResults.length} new log entries to xls: ${location2} ++++++++++++++++++`)
+            } else {
+                console.log(`+++++++++++++++++ Skipped creation of file since ${hintLogResults.length} new hint log entries for ${actionName} ++++++++++++++++++`);
+            }
             resolve(`Logs for ${actionName} stored`)
+
+
         }).catch(reason => {
             reject(reason)
         })
@@ -225,7 +253,6 @@ const transformLogs = (activation) => {
         }
     }
 };
-
 
 
 const collectOpenWhiskLogs = (logsPerMinute, startAt, testname) => {
