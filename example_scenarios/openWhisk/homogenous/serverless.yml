@@ -1,0 +1,249 @@
+service: openwhisk16steps
+
+# Please ensure the serverless-openwhisk provider plugin is installed globally.
+# $ npm install -g serverless-openwhisk
+# ...before installing project dependencies to register this provider.
+# $ npm install
+provider:
+  name: openwhisk
+  # By default, the framework creates function versions for every deploy. This behavior
+  # is optional, and can be turned off in cases where you don't invoke past versions by their qualifier
+  versionFunctions: false
+  stage: ${opt:stage, 'dev'}
+  memory: 256 # Overwrite default memory size.
+  timeout: 90 # Timeout in seconds
+  overwrite: true # Can we overwrite deployed functions?
+
+# define service wide environment variables
+# OpenWhisk does not support using environment variables to pass
+# custom parameters into the actions. Instead, of using environment variables, you can use default parameters on actions.
+# Default parameters can be defined when you create or update an action. The platform stores these parameters internally
+# and automatically includes them in the invocations parameters.
+  workflowsLocation: /workflows.json
+  owApiAuthKey: ${file(./accessKeys.json):openWhisk.owApiAuthKey}
+  owApiAuthPassword: ${file(./accessKeys.json):openWhisk.owApiAuthPassword}
+  awsAccessKeyId: ${file(./accessKeys.json):awsLambda.accessKeyId}
+  awsSecretAccessKey: ${file(./accessKeys.json):awsLambda.secretAccessKey}
+
+# you can add packaging information here
+package:
+  # individually: true
+  exclude:
+    - ./**
+  include:
+    - node_modules/cfc-lib/**
+    - node_modules/uuid/**
+    - node_modules/gaussian/**
+    - workflows.json
+    - handler1.js
+    - handler2.js
+    - handler3.js
+    - handler4.js
+    - handler5.js
+    - handler6.js
+    - handler7.js
+    - handler8.js
+    - handler9.js
+    - handler10.js
+    - handler11.js
+    - handler12.js
+    - handler13.js
+    - handler14.js
+    - handler15.js
+    - handler16.js
+    - handler17.js
+
+functions:
+  action1:
+    handler: handler1.hello
+    name: ${self:service}action1Handler
+    annotations:
+      web-export: true
+    parameters:
+      workflowsLocation: ${self:provider.workflowsLocation}
+      owApiAuthKey: ${self:provider.owApiAuthKey}
+      owApiAuthPassword: ${self:provider.owApiAuthPassword}
+      awsAccessKeyId: ${self:provider.awsAccessKeyId}
+      awsSecretAccessKey: ${self:provider.awsSecretAccessKey}
+  action2:
+    handler: handler2.hello
+    name: ${self:service}action2Handler
+    annotations:
+      web-export: true
+    parameters:
+      workflowsLocation: ${self:provider.workflowsLocation}
+      owApiAuthKey: ${self:provider.owApiAuthKey}
+      owApiAuthPassword: ${self:provider.owApiAuthPassword}
+      awsAccessKeyId: ${self:provider.awsAccessKeyId}
+      awsSecretAccessKey: ${self:provider.awsSecretAccessKey}
+  action3:
+    handler: handler3.hello
+    name: ${self:service}action3Handler
+    annotations:
+      web-export: true
+    parameters:
+      workflowsLocation: ${self:provider.workflowsLocation}
+      owApiAuthKey: ${self:provider.owApiAuthKey}
+      owApiAuthPassword: ${self:provider.owApiAuthPassword}
+      awsAccessKeyId: ${self:provider.awsAccessKeyId}
+      awsSecretAccessKey: ${self:provider.awsSecretAccessKey}
+  action4:
+    handler: handler4.hello
+    name: ${self:service}action4Handler
+    annotations:
+      web-export: true
+    parameters:
+      workflowsLocation: ${self:provider.workflowsLocation}
+      owApiAuthKey: ${self:provider.owApiAuthKey}
+      owApiAuthPassword: ${self:provider.owApiAuthPassword}
+      awsAccessKeyId: ${self:provider.awsAccessKeyId}
+      awsSecretAccessKey: ${self:provider.awsSecretAccessKey}
+  action5:
+    handler: handler5.hello
+    name: ${self:service}action5Handler
+    annotations:
+      web-export: true
+    parameters:
+      workflowsLocation: ${self:provider.workflowsLocation}
+      owApiAuthKey: ${self:provider.owApiAuthKey}
+      owApiAuthPassword: ${self:provider.owApiAuthPassword}
+      awsAccessKeyId: ${self:provider.awsAccessKeyId}
+      awsSecretAccessKey: ${self:provider.awsSecretAccessKey}
+  action6:
+    handler: handler6.hello
+    name: ${self:service}action6Handler
+    annotations:
+      web-export: true
+    parameters:
+      workflowsLocation: ${self:provider.workflowsLocation}
+      owApiAuthKey: ${self:provider.owApiAuthKey}
+      owApiAuthPassword: ${self:provider.owApiAuthPassword}
+      awsAccessKeyId: ${self:provider.awsAccessKeyId}
+      awsSecretAccessKey: ${self:provider.awsSecretAccessKey}
+  action7:
+    handler: handler7.hello
+    name: ${self:service}action7Handler
+    annotations:
+      web-export: true
+    parameters:
+      workflowsLocation: ${self:provider.workflowsLocation}
+      owApiAuthKey: ${self:provider.owApiAuthKey}
+      owApiAuthPassword: ${self:provider.owApiAuthPassword}
+      awsAccessKeyId: ${self:provider.awsAccessKeyId}
+      awsSecretAccessKey: ${self:provider.awsSecretAccessKey}
+  action8:
+    handler: handler8.hello
+    name: ${self:service}action8Handler
+    annotations:
+      web-export: true
+    parameters:
+      workflowsLocation: ${self:provider.workflowsLocation}
+      owApiAuthKey: ${self:provider.owApiAuthKey}
+      owApiAuthPassword: ${self:provider.owApiAuthPassword}
+      awsAccessKeyId: ${self:provider.awsAccessKeyId}
+      awsSecretAccessKey: ${self:provider.awsSecretAccessKey}
+  action9:
+    handler: handler9.hello
+    name: ${self:service}action9Handler
+    annotations:
+      web-export: true
+    parameters:
+      workflowsLocation: ${self:provider.workflowsLocation}
+      owApiAuthKey: ${self:provider.owApiAuthKey}
+      owApiAuthPassword: ${self:provider.owApiAuthPassword}
+      awsAccessKeyId: ${self:provider.awsAccessKeyId}
+      awsSecretAccessKey: ${self:provider.awsSecretAccessKey}
+  action10:
+    handler: handler10.hello
+    name: ${self:service}action10Handler
+    annotations:
+      web-export: true
+    parameters:
+      workflowsLocation: ${self:provider.workflowsLocation}
+      owApiAuthKey: ${self:provider.owApiAuthKey}
+      owApiAuthPassword: ${self:provider.owApiAuthPassword}
+      awsAccessKeyId: ${self:provider.awsAccessKeyId}
+      awsSecretAccessKey: ${self:provider.awsSecretAccessKey}
+  action11:
+    handler: handler11.hello
+    name: ${self:service}action11Handler
+    annotations:
+      web-export: true
+    parameters:
+      workflowsLocation: ${self:provider.workflowsLocation}
+      owApiAuthKey: ${self:provider.owApiAuthKey}
+      owApiAuthPassword: ${self:provider.owApiAuthPassword}
+      awsAccessKeyId: ${self:provider.awsAccessKeyId}
+      awsSecretAccessKey: ${self:provider.awsSecretAccessKey}
+  action12:
+    handler: handler12.hello
+    name: ${self:service}action12Handler
+    annotations:
+      web-export: true
+    parameters:
+      workflowsLocation: ${self:provider.workflowsLocation}
+      owApiAuthKey: ${self:provider.owApiAuthKey}
+      owApiAuthPassword: ${self:provider.owApiAuthPassword}
+      awsAccessKeyId: ${self:provider.awsAccessKeyId}
+      awsSecretAccessKey: ${self:provider.awsSecretAccessKey}
+  action13:
+    handler: handler13.hello
+    name: ${self:service}action13Handler
+    annotations:
+      web-export: true
+    parameters:
+      workflowsLocation: ${self:provider.workflowsLocation}
+      owApiAuthKey: ${self:provider.owApiAuthKey}
+      owApiAuthPassword: ${self:provider.owApiAuthPassword}
+      awsAccessKeyId: ${self:provider.awsAccessKeyId}
+      awsSecretAccessKey: ${self:provider.awsSecretAccessKey}
+  action14:
+    handler: handler14.hello
+    name: ${self:service}action14Handler
+    annotations:
+      web-export: true
+    parameters:
+      workflowsLocation: ${self:provider.workflowsLocation}
+      owApiAuthKey: ${self:provider.owApiAuthKey}
+      owApiAuthPassword: ${self:provider.owApiAuthPassword}
+      awsAccessKeyId: ${self:provider.awsAccessKeyId}
+      awsSecretAccessKey: ${self:provider.awsSecretAccessKey}
+  action15:
+    handler: handler15.hello
+    name: ${self:service}action15Handler
+    annotations:
+      web-export: true
+    parameters:
+      workflowsLocation: ${self:provider.workflowsLocation}
+      owApiAuthKey: ${self:provider.owApiAuthKey}
+      owApiAuthPassword: ${self:provider.owApiAuthPassword}
+      awsAccessKeyId: ${self:provider.awsAccessKeyId}
+      awsSecretAccessKey: ${self:provider.awsSecretAccessKey}
+  action16:
+    handler: handler16.hello
+    name: ${self:service}action16Handler
+    annotations:
+      web-export: true
+    parameters:
+      workflowsLocation: ${self:provider.workflowsLocation}
+      owApiAuthKey: ${self:provider.owApiAuthKey}
+      owApiAuthPassword: ${self:provider.owApiAuthPassword}
+      awsAccessKeyId: ${self:provider.awsAccessKeyId}
+      awsSecretAccessKey: ${self:provider.awsSecretAccessKey}
+  action17:
+    handler: handler17.hello
+    name: ${self:service}action17Handler
+    annotations:
+      web-export: true
+    parameters:
+      workflowsLocation: ${self:provider.workflowsLocation}
+      owApiAuthKey: ${self:provider.owApiAuthKey}
+      owApiAuthPassword: ${self:provider.owApiAuthPassword}
+      awsAccessKeyId: ${self:provider.awsAccessKeyId}
+      awsSecretAccessKey: ${self:provider.awsSecretAccessKey}
+
+
+# Add the serverless-openwhisk plugin
+# https://github.com/serverless/plugins
+plugins:
+  - serverless-openwhisk

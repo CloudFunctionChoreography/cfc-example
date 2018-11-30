@@ -6,13 +6,13 @@ const cloudwatchlogs = new AWS.CloudWatchLogs();
 const json2xls = require('json2xls');
 const fs = require('file-system');
 
-const getWorkflowStateLogs = (offset, logGroupName, callbackFn, stateLogs, nextToken) => {
+const getWorkflowStateLogs = (startTime, endTime, logGroupName, callbackFn, stateLogs, nextToken) => {
     const stateParams = {
-        endTime: new Date().getTime(),
+        endTime: endTime,
         filterPattern: '"LOG_WORKFLOW_STATE:"',
         interleaved: false, //If the value is true, the operation makes a best effort to provide responses that contain events from multiple log streams within the log group, interleaved in a single response. If the value is false, all the matched log events in the first log stream are searched first, then those in the next log stream, and so on. The default is false
         limit: 10000,
-        startTime: new Date().getTime() - (offset),
+        startTime: startTime,
         logGroupName: logGroupName
     };
     if (nextToken) stateParams.nextToken = nextToken;
@@ -23,7 +23,7 @@ const getWorkflowStateLogs = (offset, logGroupName, callbackFn, stateLogs, nextT
             let newStateLogs = [...stateLogs, ...workflowStateData.events];
 
             if (workflowStateData.nextToken) {
-                getWorkflowStateLogs(offset, logGroupName, callbackFn, newStateLogs, workflowStateData.nextToken)
+                getWorkflowStateLogs(startTime, endTime, logGroupName, callbackFn, newStateLogs, workflowStateData.nextToken)
             } else {
                 callbackFn(newStateLogs);
             }
@@ -31,13 +31,13 @@ const getWorkflowStateLogs = (offset, logGroupName, callbackFn, stateLogs, nextT
     });
 };
 
-const getWorkflowMetricLogs = (offset, logGroupName, callbackFn, metricLogs, nextToken) => {
+const getWorkflowMetricLogs = (startTime, endTime, logGroupName, callbackFn, metricLogs, nextToken) => {
     const metricParams = {
         logGroupName: logGroupName, /* required */
         interleaved: false, //If the value is true, the operation makes a best effort to provide responses that contain events from multiple log streams within the log group, interleaved in a single response. If the value is false, all the matched log events in the first log stream are searched first, then those in the next log stream, and so on. The default is false
         limit: 10000,
-        endTime: new Date().getTime(),
-        startTime: new Date().getTime() - (offset),
+        endTime: endTime,
+        startTime: startTime,
         filterPattern: `"REPORT"`
     };
     if (nextToken) metricParams.nextToken = nextToken;
@@ -48,7 +48,7 @@ const getWorkflowMetricLogs = (offset, logGroupName, callbackFn, metricLogs, nex
             let newMetricLogs = [...metricLogs, ...reportData.events];
 
             if (reportData.nextToken) {
-                getWorkflowMetricLogs(offset, logGroupName, callbackFn, newMetricLogs, reportData.nextToken)
+                getWorkflowMetricLogs(startTime, endTime, logGroupName, callbackFn, newMetricLogs, reportData.nextToken)
             } else {
                 callbackFn(newMetricLogs);
             }
@@ -56,25 +56,42 @@ const getWorkflowMetricLogs = (offset, logGroupName, callbackFn, metricLogs, nex
     });
 };
 
+let allStepLogsallStepLogs = [];
 let storeTestname = "";
 const collectAwsWorkflowLogs = (logsPerMinute, offset, testname) => {
 
-    storeTestname = testname
+    storeTestname = testname;
     if (logsPerMinute > 10000) {
         console.error("Log limit exceeded!!!");
         return "Log limit exceeded!!!";
     } else {
-        const logGroupNames = ['/aws/lambda/public-cloud-dev-function1',
-            '/aws/lambda/public-cloud-dev-function2',
-            '/aws/lambda/public-cloud-dev-function3',
-            '/aws/lambda/public-cloud-dev-function4'];
+        const logGroupNames = ['/aws/lambda/aws16steps-dev-function1',
+            '/aws/lambda/aws16steps-dev-function2',
+            '/aws/lambda/aws16steps-dev-function3',
+            '/aws/lambda/aws16steps-dev-function4',
+			'/aws/lambda/aws16steps-dev-function5',
+			'/aws/lambda/aws16steps-dev-function6',
+			'/aws/lambda/aws16steps-dev-function7',
+			'/aws/lambda/aws16steps-dev-function8',
+			'/aws/lambda/aws16steps-dev-function9',
+			'/aws/lambda/aws16steps-dev-function10',
+			'/aws/lambda/aws16steps-dev-function11',
+			'/aws/lambda/aws16steps-dev-function12',
+			'/aws/lambda/aws16steps-dev-function13',
+			'/aws/lambda/aws16steps-dev-function14',
+			'/aws/lambda/aws16steps-dev-function15',
+			'/aws/lambda/aws16steps-dev-function16',
+			'/aws/lambda/aws16steps-dev-function17'];
 
         let counter = 0;
+		const startTime = new Date().getTime() - (offset);
+		let endTime = new Date().getTime();
         for (let logGroupName of logGroupNames) {
             setTimeout(() => {
                 console.log(`Start getting AWS logs for ${logGroupName}`);
-                getWorkflowStateLogs(offset, logGroupName, (stateLogs) => {
-                    getWorkflowMetricLogs(offset, logGroupName, (metricLogs) => {
+				endTime = new Date().getTime();
+                getWorkflowStateLogs(startTime, endTime, logGroupName, (stateLogs) => {
+                    getWorkflowMetricLogs(startTime, endTime, logGroupName, (metricLogs) => {
                         let promises = [];
                         for (let i = 0; i < stateLogs.length; i++) {
                             if (stateLogs[i].message.includes("LOG_WORKFLOW_STATE:")) {
@@ -95,16 +112,23 @@ const collectAwsWorkflowLogs = (logsPerMinute, offset, testname) => {
                         }
 
                         Promise.all(promises).then(logs => {
-                            let xls = json2xls(logs);
+                            allStepLogsallStepLogs = [...allStepLogsallStepLogs, ...logs];
 
-                            let location = `benchmark/stepLogs/step_log_aws_function_${logGroupName.split('function')[1]}.xlsx`
+                            let xls = json2xls(logs);
+                            let location = `benchmark/stepLogs/step_log_aws_function_${logGroupName.split('function')[1]}.xlsx`;
                             if (storeTestname !== "") location = `benchmark/${storeTestname}/stepLogs/step_log_aws_function_${logGroupName.split('function')[1]}.xlsx`
                             fs.writeFileSync(location, xls, 'binary');
-                            console.log(`+++++++++++++++++ Added ${logs.length} new log entries to xls: ${location} ++++++++++++++++++`)
+                            console.log(`+++++++++++++++++ Added ${logs.length} new log entries to xls: ${location} ++++++++++++++++++`);
+
+                            let xlsAll = json2xls(allStepLogsallStepLogs);
+                            let locationAll = `benchmark/combinedAwsStepLogs.xlsx`;
+                            if (storeTestname !== "") locationAll = `benchmark/${storeTestname}/combinedAwsStepLogs.xlsx`;
+                            fs.writeFileSync(locationAll, xlsAll, 'binary');
+                            console.log(`+++++++++++++++++ Updated ${allStepLogsallStepLogs.length} log entries to xls: ${locationAll} ++++++++++++++++++`)
                         })
                     }, [])
                 }, [])
-            }, counter * 10000);
+            }, counter * 45000);
             counter++;
         }
     }

@@ -10,14 +10,25 @@ const ow = openwhisk({
 });
 const now = new Date().getTime();
 
-const actionNames = ['action1Handler',
-    'action2Handler',
-    'action3Handler',
-    'action4Handler',
-    'action5Handler'
+const actionNames = ['openwhisk16stepsaction1Handler',
+    'openwhisk16stepsaction2Handler',
+    'openwhisk16stepsaction3Handler',
+    'openwhisk16stepsaction4Handler',
+	'openwhisk16stepsaction5Handler',
+    'openwhisk16stepsaction6Handler',
+    'openwhisk16stepsaction7Handler',
+	'openwhisk16stepsaction8Handler',
+    'openwhisk16stepsaction9Handler',
+    'openwhisk16stepsaction10Handler',
+	'openwhisk16stepsaction11Handler',
+    'openwhisk16stepsaction12Handler',
+    'openwhisk16stepsaction13Handler',
+	'openwhisk16stepsaction14Handler',
+    'openwhisk16stepsaction15Handler',
+    'openwhisk16stepsaction16Handler'
 ];
 
-const timeout = 10;
+const timeout = 0;
 let storeTestname = "";
 
 const collectLogs = (actionName, startAt) => {
@@ -43,8 +54,10 @@ const collectLogs = (actionName, startAt) => {
                     }
                 }).catch(error => {
                     while (retryCounter < 3) {
-                        recursiveCallback();
-                        retryCounter++;
+						setTimeout(() => {
+								recursiveCallback();
+								retryCounter++;
+							}, retryCounter * 3000);
                     }
                     if (retryCounter === 3) {
                         reject(error);
@@ -59,6 +72,7 @@ const collectLogs = (actionName, startAt) => {
     const getActivationsPromise = () => {
         return new Promise((resolve, reject) => {
             getAllActivationsPromise().then(allActivations => {
+                console.log(`Identified ${allActivations.length} entries for ${actionName}`)
                 let detailedActionActivations = [];
                 console.log(`${detailedActionActivations.length} activations processed for ${actionName}`);
                 let logInterval = setInterval(() => {
@@ -77,8 +91,10 @@ const collectLogs = (actionName, startAt) => {
                                 }, timeout);
                             }).catch(reason => {
                                 while (retryCounter < 3) {
-                                    getSingleActionFunction();
-                                    retryCounter++;
+									setTimeout(() => {
+										getSingleActionFunction();
+										retryCounter++;
+									}, retryCounter * 3000);
                                 }
                                 if (retryCounter === 3) {
                                     clearInterval(logInterval);
@@ -111,21 +127,37 @@ const collectLogs = (actionName, startAt) => {
             }
 
             if (stepLogResults.length > 0) {
+                allStepLogs = [...allStepLogs, ...stepLogResults];
+
                 let xlsStepLogs = json2xls(stepLogResults);
                 let location = `benchmark/stepLogs/step_log_openWhisk_${actionName}.xlsx`;
                 if (storeTestname !== "") location = `benchmark/${storeTestname}/stepLogs/step_log_openWhisk_${actionName}.xlsx`;
                 fs.writeFileSync(location, xlsStepLogs, 'binary');
                 console.log(`+++++++++++++++++ Added ${stepLogResults.length} new log entries to xls: ${location} ++++++++++++++++++`);
+
+                let xlsStepLogsAll = json2xls(allStepLogs);
+                let locationAll = `benchmark/combinedOpenWhiskStepLogs.xlsx`;
+                if (storeTestname !== "") locationAll = `benchmark/${storeTestname}/combinedOpenWhiskStepLogs.xlsx`;
+                fs.writeFileSync(locationAll, xlsStepLogsAll, 'binary');
+                console.log(`+++++++++++++++++ Updated ${allStepLogs.length} log entries to xls: ${locationAll} ++++++++++++++++++`);
             } else {
                 console.log(`+++++++++++++++++ Skipped creation of file since ${stepLogResults.length} new step log entries for ${actionName} ++++++++++++++++++`);
             }
 
             if (hintLogResults.length > 0) {
+                allHintLogs = [...allHintLogs, ...hintLogResults];
+
                 let xlsHintLogs = json2xls(hintLogResults);
                 let location2 = `benchmark/hintLogs/hint_log_openWhisk_${actionName}.xlsx`;
                 if (storeTestname !== "") location2 = `benchmark/${storeTestname}/hintLogs/hint_log_openWhisk_${actionName}.xlsx`;
                 fs.writeFileSync(location2, xlsHintLogs, 'binary');
                 console.log(`+++++++++++++++++ Added ${hintLogResults.length} new log entries to xls: ${location2} ++++++++++++++++++`)
+
+                let xlsHintLogsAll = json2xls(allHintLogs);
+                let location2All = `benchmark/combinedOpenWhiskHintLogs.xlsx`;
+                if (storeTestname !== "") location2All = `benchmark/${storeTestname}/combinedOpenWhiskHintLogs.xlsx`;
+                fs.writeFileSync(location2All, xlsHintLogsAll, 'binary');
+                console.log(`+++++++++++++++++ Updated ${allHintLogs.length} log entries to xls: ${location2All} ++++++++++++++++++`)
             } else {
                 console.log(`+++++++++++++++++ Skipped creation of file since ${hintLogResults.length} new hint log entries for ${actionName} ++++++++++++++++++`);
             }
@@ -137,20 +169,32 @@ const collectLogs = (actionName, startAt) => {
         })
     });
 };
+var allHintLogs = [];
+var allStepLogs = [];
 
 const collectOpenWhiskLogsForAction = (actionName, since, upto) => {
     return new Promise((resolve, reject) => {
-        ow.activations.list({
-            name: actionName,
-            since: since,
-            upto: upto,
-            limit: 200
-        }).then(activationsList => {
-            if (activationsList.length >= 200) console.warn("activation list length too long");
-            resolve(activationsList)
-        }).catch(error => {
-            reject(error)
-        });
+        let counter = 0;
+        const getActivationsList = () => {
+            ow.activations.list({
+                name: actionName,
+                since: since,
+                upto: upto,
+                limit: 200
+            }).then(activationsList => {
+                if (activationsList.length >= 200) console.warn("activation list length too long");
+                if (activationsList.length === 0 && counter < 1) { // TODO adjust the counter
+                    counter++; // TODO because of couchDB returning stale results we retry it
+                    getActivationsList();
+                } else {
+                    resolve(activationsList)
+                }
+            }).catch(error => {
+                console.error(error)
+                reject(error)
+            });
+        }
+        getActivationsList();
     })
 };
 
@@ -161,6 +205,7 @@ const getSingleAction = (activationId) => {
         }).then(result => {
             resolve(result)
         }).catch(error => {
+            console.error(error)
             reject(error)
         })
     })

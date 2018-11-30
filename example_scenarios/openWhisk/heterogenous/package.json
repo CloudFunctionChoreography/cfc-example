@@ -1,0 +1,22 @@
+{
+  "name": "openwhisk-nodejs",
+  "version": "1.0.0",
+  "description": "Sample OpenWhisk NodeJS serverless framework service.",
+  "main": "handler.js",
+  "scripts": {
+    "postinstall": "npm link serverless-openwhisk",
+    "deploy-all": "serverless deploy -v",
+    "remove-all": "serverless remove"
+  },
+  "keywords": [
+    "serverless",
+    "openwhisk"
+  ],
+  "dependencies": {
+    "cfc-lib": "^1.0.21",
+    "gaussian": "^1.1.0"
+  },
+  "devDependencies": {
+    "serverless-openwhisk": "^0.14.0"
+  }
+}

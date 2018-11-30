@@ -56,6 +56,7 @@ const getMetricLogs = (offset, logGroupName, callbackFn, metricLogs, nextToken) 
     });
 };
 
+let allHintLogs = [];
 let storeTestname= "";
 const collectAwsHintLogs = (logsPerMinute, offset, testname) => {
     storeTestname = testname;
@@ -63,10 +64,23 @@ const collectAwsHintLogs = (logsPerMinute, offset, testname) => {
         console.error("Log limit exceeded!!!");
         return "Log limit exceeded!!!";
     } else {
-        const logGroupNames = ['/aws/lambda/public-cloud-dev-function1',
-            '/aws/lambda/public-cloud-dev-function2',
-            '/aws/lambda/public-cloud-dev-function3',
-            '/aws/lambda/public-cloud-dev-function4'];
+        const logGroupNames = ['/aws/lambda/aws16steps-dev-function1',
+            '/aws/lambda/aws16steps-dev-function2',
+            '/aws/lambda/aws16steps-dev-function3',
+            '/aws/lambda/aws16steps-dev-function4',
+			'/aws/lambda/aws16steps-dev-function5',
+			'/aws/lambda/aws16steps-dev-function6',
+			'/aws/lambda/aws16steps-dev-function7',
+			'/aws/lambda/aws16steps-dev-function8',
+			'/aws/lambda/aws16steps-dev-function9',
+			'/aws/lambda/aws16steps-dev-function10',
+			'/aws/lambda/aws16steps-dev-function11',
+			'/aws/lambda/aws16steps-dev-function12',
+			'/aws/lambda/aws16steps-dev-function13',
+			'/aws/lambda/aws16steps-dev-function14',
+			'/aws/lambda/aws16steps-dev-function15',
+			'/aws/lambda/aws16steps-dev-function16',
+			'/aws/lambda/aws16steps-dev-function17'];
 
         for (let logGroupName of logGroupNames) {
             getHintLogs(offset, logGroupName, (stateLogs) => {
@@ -91,12 +105,19 @@ const collectAwsHintLogs = (logsPerMinute, offset, testname) => {
                     }
 
                     Promise.all(promises).then(logs => {
-                        let xls = json2xls(logs);
+                        allHintLogs = [...allHintLogs, ...logs];
 
+                        let xls = json2xls(logs);
                         let location = `benchmark/hintLogs/hint_log_aws_function_${logGroupName.split('function')[1]}.xlsx`;
                         if (storeTestname !== "") location =`benchmark/${storeTestname}/hintLogs/hint_log_aws_function_${logGroupName.split('function')[1]}.xlsx`;
                         fs.writeFileSync(location, xls, 'binary');
                         console.log(`+++++++++++++++++ Added ${logs.length} new log entries to xls: ${location} ++++++++++++++++++`)
+
+                        let xlsAll = json2xls(allHintLogs);
+                        let locationAll = `benchmark/combinedAwsHintLogs.xlsx`;
+                        if (storeTestname !== "") locationAll =`benchmark/${storeTestname}/combinedAwsHintLogs.xlsx`;
+                        fs.writeFileSync(locationAll, xlsAll, 'binary');
+                        console.log(`+++++++++++++++++ Updated ${allHintLogs.length} log entries to xls: ${locationAll} ++++++++++++++++++`)
                     })
                 }, [])
             }, [])
