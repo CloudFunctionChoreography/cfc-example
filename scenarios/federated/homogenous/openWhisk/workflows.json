@@ -1,0 +1,244 @@
+{
+  "workflows": [
+    {
+      "name": "sample-workflow1",
+      "description": "A sample workflow...",
+      "startAt": "step1",
+      "workflow": {
+        "step1": {
+          "type": "ChoiceTask",
+          "provider": "openWhisk",
+          "functionEndpoint": {
+            "functionName": "federated16stepsaction1Handler"
+          },
+          "inputPath": "step1InputParameterKey",
+          "resultPath": "step1ResultParameterKey",
+          "choices": [
+            {
+              "variable": "success",
+              "choiceType": "stringEquals",
+              "condition": "true",
+              "next": "step2"
+            },
+            {
+              "variable": "success",
+              "choiceType": "stringEquals",
+              "condition": "false",
+              "next": "abort"
+            }
+          ],
+          "default": "abort"
+        },
+        "step2": {
+          "type": "Task",
+          "provider": "openWhisk",
+          "functionEndpoint": {
+            "functionName": "federated16stepsactionn2Handler",
+            "type": "post",
+            "hostname": "openwhisk.eu-gb.bluemix.net",
+            "path": "/api/v1/namespaces/simon.buchholz@campus.tu-berlin.de_dev/actions/federated16stepsaction2Handler"
+          },
+          "inputPath": "step2InputParameterKey",
+          "resultPath": "step2ResultParameterKey",
+          "next": "step3"
+        },
+        "step3": {
+          "type": "Task",
+          "provider": "openWhisk",
+          "functionEndpoint": {
+            "functionName": "federated16stepsaction3Handler",
+            "type": "post",
+            "hostname": "openwhisk.eu-gb.bluemix.net",
+            "path": "/api/v1/namespaces/simon.buchholz@campus.tu-berlin.de_dev/actions/federated16stepsaction3Handler"
+          },
+          "inputPath": "step3InputParameterKey",
+          "resultPath": "step3ResultParameterKey",
+          "next": "step4"
+        },
+        "step4": {
+          "type": "Task",
+          "provider": "openWhisk",
+          "functionEndpoint": {
+            "functionName": "federated16stepsaction4Handler",
+            "type": "post",
+            "hostname": "openwhisk.eu-gb.bluemix.net",
+            "path": "/api/v1/namespaces/simon.buchholz@campus.tu-berlin.de_dev/actions/federated16stepsaction4Handler"
+          },
+          "inputPath": "step4InputParameterKey",
+          "resultPath": "step4ResultParameterKey",
+          "next": "step5"
+        },
+        "step5": {
+          "type": "Task",
+          "provider": "aws",
+          "functionEndpoint": {
+            "functionName": "function5Handler",
+            "type": "post",
+            "hostname": "sv8yhip6ek.execute-api.eu-west-2.amazonaws.com",
+            "path": "/dev/api/federatedsixteenstepsfunction5"
+          },
+          "inputPath": "step5InputParameterKey",
+          "resultPath": "step5ResultParameterKey",
+          "next": "step6"
+        },
+        "step6": {
+          "type": "Task",
+          "provider": "aws",
+          "functionEndpoint": {
+            "functionName": "function6Handler",
+            "type": "post",
+            "hostname": "sv8yhip6ek.execute-api.eu-west-2.amazonaws.com",
+            "path": "/dev/api/federatedsixteenstepsfunction6"
+          },
+          "inputPath": "step6InputParameterKey",
+          "resultPath": "step6ResultParameterKey",
+          "next": "step7"
+        },
+        "step7": {
+          "type": "Task",
+          "provider": "aws",
+          "functionEndpoint": {
+            "functionName": "function7Handler",
+            "type": "post",
+            "hostname": "sv8yhip6ek.execute-api.eu-west-2.amazonaws.com",
+            "path": "/dev/api/federatedsixteenstepsfunction7"
+          },
+          "inputPath": "step7InputParameterKey",
+          "resultPath": "step7ResultParameterKey",
+          "next": "step8"
+        },
+        "step8": {
+          "type": "Task",
+          "provider": "aws",
+          "functionEndpoint": {
+            "functionName": "function8Handler",
+            "type": "post",
+            "hostname": "sv8yhip6ek.execute-api.eu-west-2.amazonaws.com",
+            "path": "/dev/api/federatedsixteenstepsfunction8"
+          },
+          "inputPath": "step8InputParameterKey",
+          "resultPath": "step8ResultParameterKey",
+          "next": "step9"
+        },
+        "step9": {
+          "type": "Task",
+          "provider": "openWhisk",
+          "functionEndpoint": {
+            "functionName": "federated16stepsaction9Handler",
+            "type": "post",
+            "hostname": "openwhisk.eu-gb.bluemix.net",
+            "path": "/api/v1/namespaces/simon.buchholz@campus.tu-berlin.de_dev/actions/federated16stepsaction9Handler"
+          },
+          "inputPath": "step9InputParameterKey",
+          "resultPath": "step9ResultParameterKey",
+          "next": "step10"
+        },
+        "step10": {
+          "type": "Task",
+          "provider": "openWhisk",
+          "functionEndpoint": {
+            "functionName": "federated16stepsaction10Handler",
+            "type": "post",
+            "hostname": "openwhisk.eu-gb.bluemix.net",
+            "path": "/api/v1/namespaces/simon.buchholz@campus.tu-berlin.de_dev/actions/federated16stepsaction10Handler"
+          },
+          "inputPath": "step10InputParameterKey",
+          "resultPath": "step10ResultParameterKey",
+          "next": "step11"
+        },
+        "step11": {
+          "type": "Task",
+          "provider": "openWhisk",
+          "functionEndpoint": {
+            "functionName": "federated16stepsaction11Handler",
+            "type": "post",
+            "hostname": "openwhisk.eu-gb.bluemix.net",
+            "path": "/api/v1/namespaces/simon.buchholz@campus.tu-berlin.de_dev/actions/federated16stepsaction11Handler"
+          },
+          "inputPath": "step11InputParameterKey",
+          "resultPath": "step11ResultParameterKey",
+          "next": "step12"
+        },
+        "step12": {
+          "type": "Task",
+          "provider": "openWhisk",
+          "functionEndpoint": {
+            "functionName": "federated16stepsaction12Handler",
+            "type": "post",
+            "hostname": "openwhisk.eu-gb.bluemix.net",
+            "path": "/api/v1/namespaces/simon.buchholz@campus.tu-berlin.de_dev/actions/federated16stepsaction12Handler"
+          },
+          "inputPath": "step12InputParameterKey",
+          "resultPath": "step12ResultParameterKey",
+          "next": "step13"
+        },
+        "step13": {
+          "type": "Task",
+          "provider": "aws",
+          "functionEndpoint": {
+            "functionName": "function13Handler",
+            "type": "post",
+            "hostname": "sv8yhip6ek.execute-api.eu-west-2.amazonaws.com",
+            "path": "/dev/api/federatedsixteenstepsfunction13"
+          },
+          "inputPath": "step13InputParameterKey",
+          "resultPath": "step13ResultParameterKey",
+          "next": "step14"
+        },
+        "step14": {
+          "type": "Task",
+          "provider": "aws",
+          "functionEndpoint": {
+            "functionName": "function14Handler",
+            "type": "post",
+            "hostname": "sv8yhip6ek.execute-api.eu-west-2.amazonaws.com",
+            "path": "/dev/api/federatedsixteenstepsfunction14"
+          },
+          "inputPath": "step14InputParameterKey",
+          "resultPath": "step14ResultParameterKey",
+          "next": "step15"
+        },
+        "step15": {
+          "type": "Task",
+          "provider": "aws",
+          "functionEndpoint": {
+            "functionName": "function15Handler",
+            "type": "post",
+            "hostname": "sv8yhip6ek.execute-api.eu-west-2.amazonaws.com",
+            "path": "/dev/api/federatedsixteenstepsfunction15"
+          },
+          "inputPath": "step15InputParameterKey",
+          "resultPath": "step15ResultParameterKey",
+          "next": "step16"
+        },
+        "step16": {
+          "type": "Task",
+          "provider": "aws",
+          "functionEndpoint": {
+            "functionName": "function16Handler",
+            "type": "post",
+            "hostname": "sv8yhip6ek.execute-api.eu-west-2.amazonaws.com",
+            "path": "/dev/api/federatedsixteenstepsfunction16"
+          },
+          "inputPath": "step16InputParameterKey",
+          "resultPath": "step16ResultParameterKey",
+          "end": "true"
+        },
+        "abort": {
+          "type": "Fail",
+          "provider": "aws",
+          "functionEndpoint": {
+            "functionName": "function17Handler",
+            "type": "post",
+            "hostname": "sv8yhip6ek.execute-api.eu-west-2.amazonaws.com",
+            "path": "/dev/api/federatedsixteenstepsfunction17"
+          },
+          "cause": "TODO in workflow json",
+          "inputPath": "abortVariable",
+          "resultPath": "abortResult",
+          "error": "Workflow returned abort"
+        }
+      }
+    }
+  ]
+}

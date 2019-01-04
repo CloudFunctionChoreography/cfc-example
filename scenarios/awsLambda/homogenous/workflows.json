@@ -1,0 +1,244 @@
+{
+  "workflows": [
+    {
+      "name": "sample-workflow1",
+      "description": "A sample workflow...",
+      "startAt": "step1",
+      "workflow": {
+        "step1": {
+          "type": "ChoiceTask",
+          "provider": "aws",
+          "functionEndpoint": {
+            "functionName": "function1Handler"
+          },
+          "inputPath": "step1InputParameterKey",
+          "resultPath": "step1ResultParameterKey",
+          "choices": [
+            {
+              "variable": "success",
+              "choiceType": "stringEquals",
+              "condition": "true",
+              "next": "step2"
+            },
+            {
+              "variable": "success",
+              "choiceType": "stringEquals",
+              "condition": "false",
+              "next": "abort"
+            }
+          ],
+          "default": "abort"
+        },
+        "step2": {
+          "type": "Task",
+          "provider": "aws",
+          "functionEndpoint": {
+            "functionName": "function2Handler",
+            "type": "post",
+            "hostname": "15i4w3tdp8.execute-api.us-east-1.amazonaws.com",
+            "path": "/dev/api/awssixteenstepsfunction2"
+          },
+          "inputPath": "step2InputParameterKey",
+          "resultPath": "step2ResultParameterKey",
+          "next": "step3"
+        },
+        "step3": {
+          "type": "Task",
+          "provider": "aws",
+          "functionEndpoint": {
+            "functionName": "function3Handler",
+            "type": "post",
+            "hostname": "15i4w3tdp8.execute-api.us-east-1.amazonaws.com",
+            "path": "/dev/api/awssixteenstepsfunction3"
+          },
+          "inputPath": "step3InputParameterKey",
+          "resultPath": "step3ResultParameterKey",
+          "next": "step4"
+        },
+        "step4": {
+          "type": "Task",
+          "provider": "aws",
+          "functionEndpoint": {
+            "functionName": "function4Handler",
+            "type": "post",
+            "hostname": "15i4w3tdp8.execute-api.us-east-1.amazonaws.com",
+            "path": "/dev/api/awssixteenstepsfunction4"
+          },
+          "inputPath": "step4InputParameterKey",
+          "resultPath": "step4ResultParameterKey",
+          "next": "step5"
+        },
+        "step5": {
+          "type": "Task",
+          "provider": "aws",
+          "functionEndpoint": {
+            "functionName": "function5Handler",
+            "type": "post",
+            "hostname": "15i4w3tdp8.execute-api.us-east-1.amazonaws.com",
+            "path": "/dev/api/awssixteenstepsfunction5"
+          },
+          "inputPath": "step5InputParameterKey",
+          "resultPath": "step5ResultParameterKey",
+          "next": "step6"
+        },
+        "step6": {
+          "type": "Task",
+          "provider": "aws",
+          "functionEndpoint": {
+            "functionName": "function6Handler",
+            "type": "post",
+            "hostname": "15i4w3tdp8.execute-api.us-east-1.amazonaws.com",
+            "path": "/dev/api/awssixteenstepsfunction6"
+          },
+          "inputPath": "step6InputParameterKey",
+          "resultPath": "step6ResultParameterKey",
+          "next": "step7"
+        },
+        "step7": {
+          "type": "Task",
+          "provider": "aws",
+          "functionEndpoint": {
+            "functionName": "function7Handler",
+            "type": "post",
+            "hostname": "15i4w3tdp8.execute-api.us-east-1.amazonaws.com",
+            "path": "/dev/api/awssixteenstepsfunction7"
+          },
+          "inputPath": "step7InputParameterKey",
+          "resultPath": "step7ResultParameterKey",
+          "next": "step8"
+        },
+        "step8": {
+          "type": "Task",
+          "provider": "aws",
+          "functionEndpoint": {
+            "functionName": "function8Handler",
+            "type": "post",
+            "hostname": "15i4w3tdp8.execute-api.us-east-1.amazonaws.com",
+            "path": "/dev/api/awssixteenstepsfunction8"
+          },
+          "inputPath": "step8InputParameterKey",
+          "resultPath": "step8ResultParameterKey",
+          "next": "step9"
+        },
+        "step9": {
+          "type": "Task",
+          "provider": "aws",
+          "functionEndpoint": {
+            "functionName": "function9Handler",
+            "type": "post",
+            "hostname": "15i4w3tdp8.execute-api.us-east-1.amazonaws.com",
+            "path": "/dev/api/awssixteenstepsfunction9"
+          },
+          "inputPath": "step9InputParameterKey",
+          "resultPath": "step9ResultParameterKey",
+          "next": "step10"
+        },
+        "step10": {
+          "type": "Task",
+          "provider": "aws",
+          "functionEndpoint": {
+            "functionName": "function10Handler",
+            "type": "post",
+            "hostname": "15i4w3tdp8.execute-api.us-east-1.amazonaws.com",
+            "path": "/dev/api/awssixteenstepsfunction10"
+          },
+          "inputPath": "step10InputParameterKey",
+          "resultPath": "step10ResultParameterKey",
+          "next": "step11"
+        },
+        "step11": {
+          "type": "Task",
+          "provider": "aws",
+          "functionEndpoint": {
+            "functionName": "function11Handler",
+            "type": "post",
+            "hostname": "15i4w3tdp8.execute-api.us-east-1.amazonaws.com",
+            "path": "/dev/api/awssixteenstepsfunction11"
+          },
+          "inputPath": "step11InputParameterKey",
+          "resultPath": "step11ResultParameterKey",
+          "next": "step12"
+        },
+        "step12": {
+          "type": "Task",
+          "provider": "aws",
+          "functionEndpoint": {
+            "functionName": "function12Handler",
+            "type": "post",
+            "hostname": "15i4w3tdp8.execute-api.us-east-1.amazonaws.com",
+            "path": "/dev/api/awssixteenstepsfunction12"
+          },
+          "inputPath": "step12InputParameterKey",
+          "resultPath": "step12ResultParameterKey",
+          "next": "step13"
+        },
+        "step13": {
+          "type": "Task",
+          "provider": "aws",
+          "functionEndpoint": {
+            "functionName": "function13Handler",
+            "type": "post",
+            "hostname": "15i4w3tdp8.execute-api.us-east-1.amazonaws.com",
+            "path": "/dev/api/awssixteenstepsfunction13"
+          },
+          "inputPath": "step13InputParameterKey",
+          "resultPath": "step13ResultParameterKey",
+          "next": "step14"
+        },
+        "step14": {
+          "type": "Task",
+          "provider": "aws",
+          "functionEndpoint": {
+            "functionName": "function14Handler",
+            "type": "post",
+            "hostname": "15i4w3tdp8.execute-api.us-east-1.amazonaws.com",
+            "path": "/dev/api/awssixteenstepsfunction14"
+          },
+          "inputPath": "step14InputParameterKey",
+          "resultPath": "step14ResultParameterKey",
+          "next": "step15"
+        },
+        "step15": {
+          "type": "Task",
+          "provider": "aws",
+          "functionEndpoint": {
+            "functionName": "function15Handler",
+            "type": "post",
+            "hostname": "15i4w3tdp8.execute-api.us-east-1.amazonaws.com",
+            "path": "/dev/api/awssixteenstepsfunction15"
+          },
+          "inputPath": "step15InputParameterKey",
+          "resultPath": "step15ResultParameterKey",
+          "next": "step16"
+        },
+        "step16": {
+          "type": "Task",
+          "provider": "aws",
+          "functionEndpoint": {
+            "functionName": "function16Handler",
+            "type": "post",
+            "hostname": "15i4w3tdp8.execute-api.us-east-1.amazonaws.com",
+            "path": "/dev/api/awssixteenstepsfunction16"
+          },
+          "inputPath": "step16InputParameterKey",
+          "resultPath": "step16ResultParameterKey",
+          "end": "true"
+        },
+        "abort": {
+          "type": "Fail",
+          "provider": "aws",
+          "functionEndpoint": {
+            "functionName": "function17Handler",
+            "type": "post",
+            "hostname": "15i4w3tdp8.execute-api.us-east-1.amazonaws.com",
+            "path": "/dev/api/awssixteenstepsfunction17"
+          },
+          "cause": "TODO in workflow json",
+          "inputPath": "abortVariable",
+          "resultPath": "abortResult",
+          "error": "Workflow returned abort"
+        }
+      }
+    }
+  ]
+}
